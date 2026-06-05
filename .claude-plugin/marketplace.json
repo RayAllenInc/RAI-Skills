@@ -1,0 +1,13 @@
+{
+  "name": "rai",
+  "owner": {
+    "name": "Ray Allen Inc"
+  },
+  "plugins": [
+    {
+      "name": "rai-skills",
+      "source": "./plugins/rai-skills",
+      "description": "Ray Allen Inc AI-native dev & product skills, built on the open Agent Skills standard."
+    }
+  ]
+}
