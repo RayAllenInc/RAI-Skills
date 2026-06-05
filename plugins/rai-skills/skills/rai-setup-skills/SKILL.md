@@ -1,49 +1,50 @@
 ---
 name: rai-setup-skills
-description: Onboard a teammate to the rai-skills toolkit by checking prerequisites are in place. Today it verifies the GitHub CLI (gh) is installed and authenticated; more setup steps will be added over time. Use when someone is setting up rai-skills for the first time, onboarding a new teammate, or mentions rai setup or onboarding.
+description: Onboard a teammate to the rai-skills toolkit — verify prerequisites (git, GitHub CLI, Node) and install the critical RAI and community skills every RAI machine should have. Use when someone is setting up rai-skills for the first time, onboarding a new teammate, or mentions rai setup or onboarding.
 disable-model-invocation: true
 ---
 
 # Onboard a teammate to rai-skills
 
-Get a teammate's machine ready to use the `rai-*` skills. Walk the steps **in order**, fix each before moving on, and finish with a short ✅ / ❌ summary so it's obvious what (if anything) still needs doing.
+Get a teammate's machine ready to use the `rai-*` skills and the wider RAI skill set. Walk the steps **in order**, fix each before moving on, and finish with a short ✅ / ❌ summary so it's obvious what (if anything) still needs doing.
 
-This is deliberately small right now — it confirms the **GitHub CLI** is installed and logged in. More steps (installing the skills marketplace, project config, and so on) will be added to this same flow later, so keep the structure extensible.
+Most checks run non-interactively. The two interactive ones (`gh auth login`, the in-app marketplace install) are handed to the teammate — ask them to type the `! <command>` in the prompt and follow it through.
 
-## Step 1 — Is the GitHub CLI installed?
+## Step 1 — Prerequisites
 
-The `rai-*` skills lean on GitHub (issues, PRs, and the skills repo itself), so `gh` needs to be on the PATH.
+Check each; install only what's missing, then re-check before continuing.
 
-Run:
+- **Git + identity** — `git --version` succeeds, and `git config --global user.name` and `git config --global user.email` both return a value. If an identity is unset, set it. Install Git: Windows `winget install --id Git.Git`; macOS `brew install git`; Linux `sudo apt install git`.
+- **GitHub CLI** — `gh --version`. Install: Windows `winget install --id GitHub.cli` (or `scoop install gh` / `choco install gh`); macOS `brew install gh`; Linux see https://github.com/cli/cli#installation.
+- **GitHub CLI auth** — `gh auth status` shows an authenticated github.com account. If not, `gh auth login` is interactive: ask the teammate to type **`! gh auth login`** and choose **GitHub.com → HTTPS → Login with a web browser**, then re-run the check.
+- **Node.js + npx** — `node --version` and `npx --version` both succeed (the skill installer runs through `npx`). Install: Windows `winget install --id OpenJS.NodeJS.LTS`; macOS `brew install node`; Linux see https://nodejs.org.
 
-```
-gh --version
-```
+## Step 2 — RAI marketplace + plugin
 
-- **Prints a version** → ✅ continue to Step 2.
-- **Command not found** → install it for this machine's OS, then re-run the check:
-  - **Windows:** `winget install --id GitHub.cli` (or `scoop install gh` / `choco install gh`)
-  - **macOS:** `brew install gh`
-  - **Linux:** see https://github.com/cli/cli#installation (for example `sudo apt install gh`)
-
-Don't move on until `gh --version` succeeds.
-
-## Step 2 — Is the GitHub CLI logged in?
-
-Run:
+The `rai-*` skills ship through the `rai` Claude Code marketplace. If you're running this skill, it's already installed — confirm and move on. To set up a fresh Claude Code, hand these to the teammate:
 
 ```
-gh auth status
+/plugin marketplace add RayAllenInc/RAI-Skills
+/plugin install rai-skills@rai
 ```
 
-- **Shows an authenticated github.com account** → ✅ done.
-- **Not logged in** → `gh auth login` is interactive, so hand it to the teammate: ask them to type **`! gh auth login`** in the prompt and follow it through (choose **GitHub.com → HTTPS → Login with a web browser**). When they're back, re-run `gh auth status` to confirm.
+- **Whole team at once:** commit the auto-provision snippet from `README.md` into a shared repo's `.claude/settings.json` — teammates are prompted to install when they trust the folder.
+- **Other agents (Codex, etc.):** `npx --yes skills@latest add RayAllenInc/RAI-Skills --full-depth -g -y -a '*'`.
+
+## Step 3 — Install the critical skill set
+
+Install every skill listed in [critical-skills.md](./critical-skills.md), using the RAI standard flags documented there (global, Claude Code, non-interactive). Run each command; if one fails, record it and continue with the rest.
+
+Pass on the heads-up in that file: installed skills run with full agent permissions, and `skills.sh` shows a security rating per skill at install time.
 
 ## Finish — report the result
 
-Print a short summary, for example:
+Print a short ✅ / ❌ summary, for example:
 
-- GitHub CLI installed: ✅ `gh version 2.x`
-- GitHub CLI authenticated: ✅ signed in as `<user>`
+- Git + identity: ✅ `git 2.54`, user configured
+- GitHub CLI: ✅ `gh 2.x`, authenticated as `<user>`
+- Node + npx: ✅ `v20.x`
+- RAI marketplace: ✅ `rai-skills@rai`
+- Critical skills: ✅ 6/6 roster commands succeeded (or ❌ name the ones that failed)
 
-If both are ✅, tell them they're set up and point to the next step (installing the rai-skills marketplace — added to this flow soon). If anything is ❌, say exactly what's left to do.
+If everything is ✅, tell them they're set up. Point to the per-project next step: run `setup-matt-pocock-skills` once inside a repo so the engineering skills (`to-prd`, `triage`, …) learn where that repo tracks issues and which triage labels to use. If anything is ❌, say exactly what's left to do.
