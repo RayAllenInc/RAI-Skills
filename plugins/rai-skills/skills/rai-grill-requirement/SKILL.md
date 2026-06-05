@@ -3,13 +3,23 @@ name: rai-grill-requirement
 description: Grill a product manager about a feature idea in plain, outcome-focused language to turn it into sharp product requirements — capturing the shared glossary and decisions (CONTEXT.md, ADRs) inline, and parking deeper build questions for a later architect grill. Use when a PM — or anyone steering product direction — wants to pressure-test a feature idea or firm up requirements before it becomes a PRD.
 ---
 
+<built-on>
+
+This skill is the **grill-with-docs** skill run for a product manager — it borrows that engine and adds a product lens rather than re-implementing it.
+
+**Reuse from grill-with-docs:** the base grilling loop (interview relentlessly, one question at a time, walk the decision tree resolving dependencies, recommend an answer each time, explore the codebase to answer your own questions) and its decision-capture formats — the `CONTEXT.md` glossary and the ADR format it defines.
+
+**Dependency:** grill-with-docs must be available — it ships in the RAI critical-skills roster. If you can't find it, run the **rai-setup-skills** onboarding (it installs the roster, including grill-with-docs), then continue.
+
+**Override:** grill-with-docs is written for an engineer challenging a plan against the code — it tells you to cross-reference code and surface contradictions aloud. The two rules below **replace** that posture. Anything code-facing stays backstage; persona, framing, and what you may say are governed here, not there.
+
+</built-on>
+
 <what-to-do>
 
-Interview me relentlessly about this feature idea until the requirements are sharp and we share an understanding. Walk each branch of the decision tree, resolving dependencies one at a time. For each question, recommend an answer. Ask one question at a time and wait for my answer before the next.
+Interview me relentlessly about this feature idea — using the grill-with-docs loop above — until the requirements are sharp and we share an understanding.
 
 Start from the idea I bring — if I haven't stated it, ask me to in a sentence.
-
-Explore the codebase whenever it can answer a question for you — but the two rules below govern how the code shows up in what you ask (it never does).
 
 I am a product manager. I think in users, outcomes, and value, not code. Keep every question answerable from that seat.
 
@@ -17,9 +27,9 @@ I am a product manager. I think in users, outcomes, and value, not code. Keep ev
 
 <two-rules>
 
-These are what separate this from a normal grilling. Never break them.
+These are what separate this from the base grill. Never break them.
 
-**1. The codebase is backstage.** Read the code to learn what to ask and how sharply — but no question ever references it. No file names, no "the system currently does X," no internals. I don't know the underlying code. Meet me as a strategist who understands the product, never as a code reviewer.
+**1. The codebase is backstage.** Read the code to learn what to ask and how sharply — but no question ever references it. No file names, no "the system currently does X," no internals. I don't know the underlying code. Meet me as a strategist who understands the product, never as a code reviewer. (This replaces grill-with-docs's "cross-reference with code" and "surface the contradiction" steps — keep those for your own thinking only.)
 
 **2. Ask the outcome shadow.** Every consideration — even a deeply technical one — has a user-facing question its answer hinges on. Ask *that*, in plain language:
 
@@ -64,11 +74,11 @@ A sharp colleague over coffee, not an intake form.
 
 <capture>
 
-Capture decisions inline as they crystallize — don't batch them.
+Capture decisions inline as they crystallize — don't batch them. Use grill-with-docs's `CONTEXT.md` and ADR formats, with one override: **keep every entry in product language** — outcomes and trade-offs from the user's and business's point of view, never build mechanics.
 
-**Glossary (`CONTEXT.md`).** When a term resolves, or I use a word that conflicts with an existing one or is vague ("account" — the company paying us, or the person logging in?), pin it down and record it. Keep it a glossary — no implementation details. Format: [CONTEXT-FORMAT.md](./CONTEXT-FORMAT.md).
+**Glossary (`CONTEXT.md`).** When a term resolves, or I use a word that conflicts with an existing one or is vague ("account" — the company paying us, or the person logging in?), pin it down and record it. Keep it a glossary — no implementation details.
 
-**Decisions (ADRs).** Offer one only when the call is hard to reverse, surprising without context, and a real trade-off — framed in pure product language. Format: [ADR-FORMAT.md](./ADR-FORMAT.md).
+**Decisions (ADRs).** Offer one only when the call is hard to reverse, surprising without context, and a real trade-off — framed in pure product language.
 
 **Architect parking lot.** Deferred build questions go inline into `.scratch/<feature>/architect-questions.md`. Many derive from my own answers — record the answer as the constraint: "Data must be fresh within the hour → architect: choose a refresh approach that meets that." This file feeds the later architect grill.
 

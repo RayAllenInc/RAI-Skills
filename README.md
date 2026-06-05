@@ -8,7 +8,7 @@ Skills follow the open [Agent Skills standard](https://agentskills.io) (`SKILL.m
 
 | Skill | What it does |
 | --- | --- |
-| `rai-grill-requirement` | Grills a product manager on a feature idea in plain, outcome-focused language, turning it into sharp requirements plus a shared glossary and decisions, then hands off to `to-prd`. |
+| `rai-grill-requirement` | Grills a product manager on a feature idea in plain, outcome-focused language, turning it into sharp requirements plus a shared glossary and decisions, then hands off to `to-prd`. Builds on the community `grill-with-docs` skill (installed by `rai-setup-skills`). |
 | `rai-setup-skills` | Onboarding check for a new teammate (today: GitHub CLI installed + authenticated). |
 
 The canonical skill folders live under **`plugins/rai-skills/skills/`**.
