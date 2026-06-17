@@ -1,6 +1,6 @@
 ---
 name: rai-grill-requirement
-description: Grill a product manager about a feature idea in plain, outcome-focused language to turn it into sharp product requirements — capturing the shared glossary and decisions (CONTEXT.md, ADRs) inline, and parking deeper build questions for a later architect grill. Use when a PM — or anyone steering product direction — wants to pressure-test a feature idea or firm up requirements before it becomes a PRD.
+description: Grill a product manager about a feature idea in plain, outcome-focused language — the stage-1 counterpart to rai-grill-architect. Use when a PM, or anyone steering product direction, wants to pressure-test a feature idea or firm up requirements before it becomes a PRD.
 ---
 
 <built-on>
