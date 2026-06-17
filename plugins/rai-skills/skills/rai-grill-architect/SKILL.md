@@ -5,19 +5,21 @@ description: Grill an architect on how to build a feature, with the codebase ful
 
 <built-on>
 
-This skill is the **grill-with-docs** skill run for an architect — it borrows that engine and adds a build lens rather than re-implementing it. It is the stage-2 inverse of **rai-grill-requirement**: same engine, opposite posture.
+This skill is the **grilling** loop run for an architect, capturing decisions through **domain-modeling** — it borrows those two engines (the same pair the community **grill-with-docs** wrapper composes) and adds a build lens rather than re-implementing them. It is the stage-2 inverse of **rai-grill-requirement**: same engines, opposite posture.
 
-**Reuse from grill-with-docs:** the base grilling loop (interview relentlessly, one question at a time, walk the decision tree resolving dependencies, recommend an answer each time, explore the codebase to answer your own questions) and its decision-capture formats — the `CONTEXT.md` glossary and the ADR format it defines.
+**Reuse:** the base grilling loop from **grilling** (interview relentlessly, one question at a time, walk the decision tree resolving dependencies, recommend an answer each time, explore the codebase to answer your own questions) and the decision-capture formats from **domain-modeling** — the `CONTEXT.md` glossary and the ADR format it defines.
 
-**Dependency:** grill-with-docs must be available — it ships in the RAI critical-skills roster. If you can't find it, run the **rai-setup-skills** onboarding (it installs the roster, including grill-with-docs), then continue.
+**Dependency:** the **grilling** and **domain-modeling** skills must be available — they ship in the RAI critical-skills roster (alongside the **grill-with-docs** wrapper that composes them). If you can't find them, run the **rai-setup-skills** onboarding (it installs the roster), then continue.
 
-**Override:** rai-grill-requirement *suppressed* grill-with-docs's code-facing posture — codebase backstage, product language only. This skill does the opposite: it **restores and leans into** that posture. The two rules below govern it.
+**Companion vocabulary:** when you name the modules, interfaces, and seams a change touches, borrow the community **codebase-design** skill's terms (module · interface · depth · seam · adapter) — it ships in the same roster. Lean on its vocabulary; don't redefine it.
+
+**Override:** rai-grill-requirement *suppressed* domain-modeling's code-facing step — codebase backstage, product language only. This skill does the opposite: it **restores and leans into** that posture. The two rules below govern it.
 
 </built-on>
 
 <what-to-do>
 
-Interview me relentlessly about *how* to build this feature — using the grill-with-docs loop above — until the build approach is sharp and we share an understanding.
+Interview me relentlessly about *how* to build this feature — using the grilling loop above — until the build approach is sharp and we share an understanding.
 
 Read these first, before asking anything:
 
@@ -33,7 +35,7 @@ I am the architect. I think in mechanics, interfaces, data, failure modes, and n
 
 These separate this from the requirement grill — never break them.
 
-**1. The codebase is on the table.** Read the code and use it out loud — cite current behavior, name the modules and seams a change touches, and surface contradictions between what I claim and what the code does ("the read path already caches that for ten minutes — can 'fresh within the hour' lean on it, or not?"). Meet me as an engineer at a whiteboard, not a strategist. (This restores grill-with-docs's "cross-reference with code" and "surface the contradiction" steps that rai-grill-requirement turned off.)
+**1. The codebase is on the table.** Read the code and use it out loud — cite current behavior, name the modules and seams a change touches, and surface contradictions between what I claim and what the code does ("the read path already caches that for ten minutes — can 'fresh within the hour' lean on it, or not?"). Meet me as an engineer at a whiteboard, not a strategist. (This restores domain-modeling's "cross-reference with code" / "surface the contradiction" step that rai-grill-requirement turned off.)
 
 **2. Ask the mechanism, not the shadow.** The requirement grill translated every build question into its user-facing outcome and parked the mechanism for you. Pick those up and ask them *directly*, in build terms:
 
@@ -78,9 +80,9 @@ A sharp engineering colleague at a whiteboard, not a design-review form.
 
 <capture>
 
-Capture decisions inline as they crystallize — don't batch them. Use grill-with-docs's `CONTEXT.md` and ADR formats.
+Capture decisions inline as they crystallize — don't batch them. Use domain-modeling's `CONTEXT.md` and ADR formats.
 
-**ADRs are the primary capture here.** Where the requirement grill offered them sparingly and in product language, the architect grill produces them as the main artifact — build mechanics, trade-offs, and the constraints behind them. Keep grill-with-docs's bar: offer one when the call is hard to reverse, surprising without context, and a real trade-off.
+**ADRs are the primary capture here.** Where the requirement grill offered them sparingly and in product language, the architect grill produces them as the main artifact — build mechanics, trade-offs, and the constraints behind them. Keep domain-modeling's bar: offer one when the call is hard to reverse, surprising without context, and a real trade-off.
 
 **The glossary (`CONTEXT.md`) stays a pure glossary.** Implementation detail lives in ADRs, never here. Add a term only when the build surfaces a new domain word or sharpens an existing one.
 

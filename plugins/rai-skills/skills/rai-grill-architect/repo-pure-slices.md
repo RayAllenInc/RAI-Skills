@@ -17,9 +17,11 @@ When a feature spans two sides, record the shape of the data they exchange **onc
 
 Then make the *other* side's story **reference that same statement**. Stated once, both sides point to it; never re-described on each side. Describe it in plain terms or a small snippet — no particular format is required, and there is no separate "contract" artifact to stand up and maintain.
 
-This usually **sharpens** what the PRD already sketched (`to-prd` records a first-pass "API contracts" decision) rather than inventing it from scratch. Land the ADR in the repo that **owns** the shape — typically the producing (backend) side's `docs/adr/` — and have the consuming side's story reference it across the repo boundary.
+This usually **sharpens** what the PRD already sketched (the shared shape maps onto an "API contracts" item under `to-prd`'s Implementation Decisions) rather than inventing it from scratch. Land the ADR in the repo that **owns** the shape — typically the producing (backend) side's `docs/adr/` — and have the consuming side's story reference it across the repo boundary.
 
 That single discipline — one statement, both sides reference it — is the whole point. Versioning, generated mocks, and dedicated contract tests are optional weight you can add later or never; don't bake them in here.
+
+**Relation to `domain-modeling`'s multi-context model.** `domain-modeling` already handles multiple bounded contexts *inside one repo* via a root `CONTEXT-MAP.md` that points to each context's own `CONTEXT.md` + `docs/adr/`. That map can't span repos, though — two separately-merged repos each keep their own root `CONTEXT.md` and `docs/adr/`. So treat a cross-repo feature as the inter-repo analog: the **shared shape is the cross-boundary reference** that stands in for a shared map, and the ADR lives with the repo that owns the shape (above).
 
 ## Repo-pure slices
 
@@ -33,7 +35,7 @@ A slice so tightly coupled that splitting it is artificial can stay whole — no
 
 ### Reconciling with `to-issues`' "vertical slice" rule
 
-`to-issues` normally insists each slice cut through **all** layers end-to-end (schema → API → UI) and be demoable on its own, and treats a single-layer slice as the horizontal slice to avoid. A repo-pure slice looks horizontal by that definition, so be explicit: **for a cross-repo feature, redefine the slice axis.** A slice that spans every layer is impossible inside one repo, so each slice runs vertical through *its own* repo's layers (schema → endpoint → tests on the backend; component → state → tests on the frontend), single-side across repos. The **shared shape is what keeps a single-side slice independently verifiable** — you can prove the backend returns the shape, and build the frontend against the shape — which honours `to-issues`' "verifiable on its own" intent without the other repo present. This override applies to cross-repo features only; single-repo work keeps `to-issues`' normal all-layers slices untouched. (It is the same kind of deliberate override the skill's two rules make over `grill-with-docs`.)
+`to-issues` normally insists each slice cut through **all** layers end-to-end (schema → API → UI) and be demoable on its own, and treats a single-layer slice as the horizontal slice to avoid. A repo-pure slice looks horizontal by that definition, so be explicit: **for a cross-repo feature, redefine the slice axis.** A slice that spans every layer is impossible inside one repo, so each slice runs vertical through *its own* repo's layers (schema → endpoint → tests on the backend; component → state → tests on the frontend), single-side across repos. The **shared shape is what keeps a single-side slice independently verifiable** — you can prove the backend returns the shape, and build the frontend against the shape — which honours `to-issues`' "verifiable on its own" intent without the other repo present. This override applies to cross-repo features only; single-repo work keeps `to-issues`' normal all-layers slices untouched. (It is the same kind of deliberate override the skill's two rules make over domain-modeling's code-facing step.)
 
 ## Routing to `to-issues`
 
