@@ -29,13 +29,15 @@ The `rai-*` skills ship through the `rai` Claude Code marketplace. If you're run
 ```
 
 - **Whole team at once:** commit the auto-provision snippet from `README.md` into a shared repo's `.claude/settings.json` — teammates are prompted to install when they trust the folder.
-- **Other agents (Codex, etc.):** `npx --yes skills@latest add RayAllenInc/RAI-Skills --full-depth -g -y -a '*'`.
+- **Other agents (Codex, etc.):** `npx --yes skills@latest add RayAllenInc/RAI-Skills --full-depth -g -y -a codex` — name the agents the teammate actually uses, space-separated (e.g. `-a codex cursor`); avoid `-a '*'`, which targets every agent skills.sh knows.
 
 ## Step 3 — Install the critical skill set
 
 Install every skill listed in [critical-skills.md](./critical-skills.md), using the RAI standard flags documented there (global, Claude Code, non-interactive). Run each command; if one fails, record it and continue with the rest.
 
 Pass on the heads-up in that file: installed skills run with full agent permissions, and `skills.sh` shows a security rating per skill at install time.
+
+Then prune stale skills: run `npx --yes skills@latest update -g -y` and, if it warns that any skills were *deleted upstream*, remove the named ones with `npx --yes skills@latest remove <names> -g -y -a claude-code` (see "Pruning stale skills" in [critical-skills.md](./critical-skills.md)). This clears leftovers a major upstream release renamed or dropped — e.g. a `write-a-skill` or `diagnose` copy from before mattpocock/skills v1.0.0 — that would otherwise sit alongside their replacements.
 
 ## Finish — report the result
 
@@ -46,5 +48,6 @@ Print a short ✅ / ❌ summary, for example:
 - Node + npx: ✅ `v20.x`
 - RAI marketplace: ✅ `rai-skills@rai`
 - Critical skills: ✅ 6/6 roster commands succeeded (or ❌ name the ones that failed)
+- Stale skills pruned: ✅ removed N deleted-upstream skills (or "none to prune")
 
 If everything is ✅, tell them they're set up. Point to the per-project next step: run `setup-matt-pocock-skills` once inside a repo so the engineering skills (`to-prd`, `triage`, …) learn where that repo tracks issues and which triage labels to use. If anything is ❌, say exactly what's left to do.
