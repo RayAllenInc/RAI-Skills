@@ -42,7 +42,7 @@ Run these in order. Each step is done only when its check holds.
 1. **Branch.** Create `feature/<slug>` off the integration branch; you drive git, not the product person.
    *Done when:* the branch exists off the integration branch, you are on it, and `main` is untouched.
 
-2. **Red.** Write the acceptance test from the PRD's acceptance criteria. If the module has no test setup, scaffold the test file and its local wiring (see build-checklist.md); the runner itself is assumed present.
+2. **Red.** Write the acceptance test from the PRD's acceptance criteria. If the module has no test setup, scaffold the test file and its local wiring — an untested module is not a missing runner (see build-checklist.md); the runner itself is assumed present.
    *Done when:* the test exists and **runs red for the right reason** — it fails because the behavior is absent, not because the harness is broken.
 
 3. **Green.** Write the minimal code to pass — **build against the contract** (or its mock), at the named seams. Run typecheck and the test command after each meaningful change.
