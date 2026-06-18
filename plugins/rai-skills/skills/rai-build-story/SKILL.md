@@ -15,8 +15,8 @@ Confirm the **environment contract** before building. If one is missing, stop an
 
 1. A **writable checkout of the target code repo**, on a clean integration branch (backend `develop`, frontend `dev`), with push rights to **branches only**.
 2. A **readable Context repo** (NexaContext): `CONTEXT.md`, `docs/adr/`, `features/<slug>/PRD.md`, `features/<slug>/contract/`.
-3. A **test runner and a run command** for the repo. (Standing one up where there is none is a one-time per-repo decision, not this skill's job — see build-checklist.md.)
-4. **One repo-pure story** — single side, single repo — that links its PRD and names the **contract version** and shared shape it targets.
+3. A **test runner that can run *this story's* test in the loop** — locally, without infra the checkout lacks. A runner that only works against a live app, a real database, or a network the build can't reach (e.g. an E2E-only frontend with no mock or component harness) does **not** satisfy this: if that's all there is, **stop and flag it** rather than writing a test you can never run red→green. (Standing up a runner where there is none is a one-time per-repo decision, not this skill's job — see build-checklist.md.)
+4. **One repo-pure story** — single side, single repo — that links its PRD and names the **contract version** and shared shape it targets, and that earned its **`ready-for-agent`** label at the ReadyToCode gate (signed off by someone other than its author, not self-applied).
 
 How those got there — a bootstrapped workspace, an AFK sandbox, a laptop — is not this skill's concern.
 
@@ -64,6 +64,7 @@ Run these in order. Each step is done only when its check holds.
 - **branch-write, prod-blind** — write branches never `main`; deploy preview/QA never prod; use synthetic/fixture data never customer data.
 - **repo-pure** — build exactly one side. A feature that spans backend and frontend is two separate runs; reference the shared shape, don't re-describe it.
 - **Stop at the PR.** Human review and merge (Phase 5) and regression (Phase 6) are downstream, not yours.
+- **Dry run when asked, or when you can't publish.** For a dry run — or in a throwaway/sandbox checkout with no push rights — do steps 1–5, then **emit the PR body as text and stop**: no commit-to-push, no PR. Honoring "branch-write" never means inventing a push you can't make.
 
 </guardrails>
 

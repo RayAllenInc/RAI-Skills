@@ -56,6 +56,8 @@ Cover at least these — a floor, not a ceiling:
 8. **The edges** — user-visible "what happens when…" cases
 9. **Trade-offs** — when two good things collide, which wins and why (→ ADR)
 10. **Risks & bets** — what we're assuming; what would sink it
+11. **Which one exactly** — when the outcome rests on "the X" but several similar things could be that X (which date, which status, which user), make me name the exact one. Overloaded words hide the real decision.
+12. **Already half-solved?** — does the product already do part of this somewhere else? If so, reconcile with it so there's one source of truth — don't quietly ship a second version that can disagree with the first.
 
 Before finishing, run a completeness sweep: what's unique about *this* idea that none of the standard areas caught? Chase it — the best questions live there.
 
@@ -80,7 +82,7 @@ Capture decisions inline as they crystallize — don't batch them. Use domain-mo
 
 **Decisions (ADRs).** Offer one only when the call is hard to reverse, surprising without context, and a real trade-off — framed in pure product language.
 
-**Architect parking lot.** Deferred build questions go inline into `.scratch/<feature>/architect-questions.md`. Many derive from my own answers — record the answer as the constraint: "Data must be fresh within the hour → architect: choose a refresh approach that meets that." This file feeds the later architect grill.
+**Architect parking lot.** Deferred build questions go inline into `architect-questions.md` in this feature's folder. **Resolve that folder from the repo — don't assume it:** if `docs/agents/issue-tracker.md` exists, follow the layout it specifies (e.g. NexaContext uses `features/<slug>/`); only if there is no such config, fall back to `.scratch/<feature>/`. Keep it beside where the PRD will live. Many derive from my own answers — record the answer as the constraint: "Data must be fresh within the hour → architect: choose a refresh approach that meets that." This file feeds the later architect grill.
 
 Read any existing `CONTEXT.md` and `docs/adr/` before exploring; create them lazily, only once there's something to write.
 
