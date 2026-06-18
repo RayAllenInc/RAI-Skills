@@ -24,7 +24,7 @@ Interview me relentlessly about *how* to build this feature — using the grilli
 Read these first, before asking anything:
 
 - the **PRD** for this feature (the requirement grill's output, synthesized by `to-prd`);
-- **`.scratch/<feature>/architect-questions.md`** — the questions the requirement grill parked for you. The answers it recorded are now your **constraints** ("fresh within the hour → you choose how"). Read it directly; it does not travel inside the PRD. If it's absent — no prior requirement grill, or a fresh session — work from the PRD and code alone, and note the missing parked constraints rather than blocking;
+- **the parked questions** — `architect-questions.md` in this feature's folder (the questions the requirement grill parked for you). **Find that folder from the repo — don't assume it:** if `docs/agents/issue-tracker.md` exists, use the layout it specifies (e.g. NexaContext uses `features/<slug>/`); otherwise fall back to `.scratch/<feature>/`. The answers it recorded are now your **constraints** ("fresh within the hour → you choose how"). Read it directly; it does not travel inside the PRD. If it's absent — no prior requirement grill, or a fresh session — work from the PRD and code alone, and note the missing parked constraints rather than blocking;
 - the **glossary** (`CONTEXT.md`), existing **ADRs**, and the **code**.
 
 I am the architect. I think in mechanics, interfaces, data, failure modes, and non-functionals. Engage the code with me directly.
@@ -58,7 +58,7 @@ Cover at least these — a floor, not a ceiling:
 4. **Failure & recovery** — what happens when each dependency fails; retries, fallbacks
 5. **Non-functionals** — latency, throughput, and scale budgets, named with numbers
 6. **Security & access** — authorization, tenancy, what data is exposed and to whom
-7. **Dependencies & blast radius** — external systems touched; what a change can break
+7. **Dependencies & blast radius** — external systems touched; what a change can break; and when a story leans on "existing" behavior to reuse, open the code and confirm it is an actual reusable unit — not just a similar-looking thing you'd have to build or refactor first
 8. **Build sequencing** — what slices cleanly per side, what's coupled, the merge order
 9. **Testing seams** — where and how the feature is proven; the boundaries that let it be tested in isolation
 10. **Operability** — observability, rollout and flagging, and how to reverse it
@@ -94,6 +94,6 @@ Create or extend `CONTEXT.md` and `docs/adr/` lazily — only once a decision is
 
 <when-done>
 
-When every coverage area is answered or parked and the completeness sweep turns up nothing new, summarize the decisions, then hand off: the story slices feed **`to-issues`**, which files each as an issue in its own repo. For a cross-repo feature, carry the per-repo routing yourself (see [repo-pure-slices.md](./repo-pure-slices.md)). Don't write the issues here — that's `to-issues`' job.
+When every coverage area is answered or parked and the completeness sweep turns up nothing new, summarize the decisions, then hand off: the story slices feed **`to-issues`**, which files each as an issue in its own repo. For a cross-repo feature, carry the per-repo routing yourself (see [repo-pure-slices.md](./repo-pure-slices.md)). Don't write the issues here — that's `to-issues`' job. Each story then faces the **ReadyToCode gate** before any build: it earns the `ready-for-agent` label only when a *different* co-architect signs off the checklist in [ready-to-code.md](./ready-to-code.md) — never self-applied.
 
 </when-done>
