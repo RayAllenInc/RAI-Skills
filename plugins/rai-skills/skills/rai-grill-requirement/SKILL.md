@@ -25,6 +25,16 @@ I am a product manager. I think in users, outcomes, and value, not code. Keep ev
 
 </what-to-do>
 
+<frame-first>
+
+Two quick framings **before** the relentless interview — they decide what you're even grilling. Do these first, in plain language, then start the loop.
+
+**1. Size it: story, feature, or epic?** If the idea spans several independent user-facing capabilities (e.g. a whole *reporting module*, not one report), it's an **epic** — too big for a single grill. Stop and help me name the **features** inside it, then grill **one feature at a time** (one `features/<slug>/` each). One grill = one feature = a handful of stories. A single grill that tries to swallow an epic produces a shapeless PRD and a marathon session — name the slice before you dig in.
+
+**2. Greenfield or brownfield?** Ask up front whether this is net-new or an **expansion of something that already exists**. Most of our work is brownfield. If it is, record it immediately as a binding constraint — *"expansion of `<X>`: reuse what's there, don't rebuild it"* — so it lands in the PRD and the architect inherits it. Don't make me keep repeating "we already have RBAC, don't reinvent it." (You still keep the codebase backstage per rule 1 — read the code to *know* what already exists; just don't cite it at me.)
+
+</frame-first>
+
 <two-rules>
 
 These are what separate this from the base grill. Never break them.
