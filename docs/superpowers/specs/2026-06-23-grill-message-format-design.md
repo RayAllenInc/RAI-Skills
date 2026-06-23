@@ -4,7 +4,7 @@
 
 A formatting upgrade for the **questions the grill skills ask during a querying session** — the one-question-at-a-time interview run by `rai-grill-requirement` and `rai-grill-architect`. Goal: **decrease the reader's cognitive load** so each turn is easy to read and easy to act on. Presentation only — not a new skill, and not a change to *what* gets asked.
 
-The format is **proportional markdown**: the question in a quote bar (the anchor), its **Options** offered as **selectable choices** the user can click (recommended one marked ⭐, written list as fallback), then a short **Why** explaining the pick. Once a question is answered it collapses to a two-line **Q/A card**, so the scrollback reads as a record of decisions.
+The format is **proportional markdown**: the question in a quote bar (the anchor), a bulleted **Options** list with a **⭐ on the recommended option**, then a short **Why** explaining the pick. Once a question is answered it collapses to a two-line **Q/A card**, so the scrollback reads as a record of decisions.
 
 > **Revision note (boxed → proportional).** This began as a monospace **boxed-question** layout — a Unicode box in a code block. Seen rendered live, the closed box came out **ragged** (the live agent couldn't reliably pad every line to a fixed column) and the **monospace prose** in `MY TAKE` was tiring to read. We pivoted to proportional markdown: nothing to misalign, and the reasoning reads in a normal font. The boxed design is preserved in git history (commits `7ed75ba`, `74392ca`).
 
@@ -39,9 +39,8 @@ The first attempt (a monospace box) fixed "buried" but reintroduced "too much te
 | **D5 — Lean by default** | `Recap` only when something was just captured (a short italic lead-in). No discrete choices → drop `Options`, give a one-line `My take:` + `Why`. Keep `Why` to a sentence or two. | The brevity governor (Grice-Quantity, Krug). The 6-line `MY TAKE` seen live is the failure this prevents. |
 | **D6 — Resolved Q/A card + divider** | Once answered, a question collapses to a two-line card — `Q:` / `A:` with a ✅, the answer in words. It leads the next turn above a `---` divider; the open question follows. | Pairs each question with its decided answer so the scrollback is a clean Q→A record; the divider marks settled → active. |
 | **D7 — Escape hatch once; reflect-back is the ledger** | "park it / move on / not sure yet" stated once at session open. The end-of-area reflect-back is the stack of Q/A cards under a `## ✅ Settled — <area>` heading, not prose. | Per-turn escape lines are furniture; the card ledger is a cleaner record than a paragraph. |
-| **D8 — Options as selectable choices (clickable)** | Offer options as selectable choices the user can pick — recommended-first, gloss attached, free-text "Other" as the escape; the written list is the fallback. Described as a **capability** in `message-format.md`; a labeled **Claude-Code binding** maps it to the ask-question tool. Choice-questions only — open questions stay free text. | One click instead of typing (Hick's Law / defaults). Capability language keeps `SKILL.md` portable per CLAUDE.md; buttons on open questions would lead/anchor (the Appendix A bias). |
 
-**Out of scope:** progress breadcrumbs; the Appendix A intent work; `rai-setup-skills` / `rai-build-story` messages; the community `grilling` / `domain-modeling` engines (RAI owns the wrappers, not those).
+**Out of scope:** progress breadcrumbs; the Appendix A intent work; `rai-setup-skills` / `rai-implement-story` messages; the community `grilling` / `domain-modeling` engines (RAI owns the wrappers, not those).
 
 ---
 
@@ -82,7 +81,7 @@ At the end of an area the cards stack under a `## ✅ Settled — <area>` headin
 
 ## 4. Where it lives (information hierarchy)
 
-Mirrors the `rai-build-story` + `build-checklist.md` shape: a thin pointer in `SKILL.md`, detail one level deep in a sibling.
+Mirrors the `rai-implement-story` + `build-checklist.md` shape: a thin pointer in `SKILL.md`, detail one level deep in a sibling.
 
 - **`message-format.md` in each skill dir** — the layout, the parts, the lean rules, and register-appropriate examples. Duplicated across the two dirs on purpose (each skill stays self-contained and portable; examples differ by register).
 - **`<how-it-feels>` in each `SKILL.md`** points one level deep to the sibling and states the shape in one bullet.
@@ -155,6 +154,6 @@ Changes that improve *how well the interview surfaces true intent*. They alter q
 ## 8. References
 
 - `rai-grill-requirement/SKILL.md`, `rai-grill-architect/SKILL.md` — the `<how-it-feels>` sections this edits; house style.
-- `rai-build-story/SKILL.md` + `build-checklist.md` — the thin-SKILL + disclosed-sibling pattern this mirrors.
+- `rai-implement-story/SKILL.md` + `build-checklist.md` — the thin-SKILL + disclosed-sibling pattern this mirrors.
 - `grilling` (community) — the engine both skills run; "one question at a time" is the only formatting rule it carries. Not edited.
 - `CLAUDE.md` — authoring rules (tool-neutral, ≤100-line SKILL.md, detail one level deep, bump `plugin.json` on release).
