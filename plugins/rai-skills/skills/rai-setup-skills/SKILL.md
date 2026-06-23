@@ -1,14 +1,14 @@
 ---
 name: rai-setup-skills
-description: Onboard a teammate to the rai-skills toolkit — verify prerequisites (git, GitHub CLI, Node) and install the critical RAI and community skills every RAI machine should have. Use when someone is setting up rai-skills for the first time, onboarding a new teammate, or mentions rai setup or onboarding.
+description: Onboard a teammate to the rai-skills toolkit, or refresh/repair a machine whose skills are stale or missing — verify prerequisites (git, GitHub CLI, Node), install or update the rai plugin, and install the critical RAI and community skills. Use when setting up rai-skills for the first time, onboarding a teammate, or when a rai-* skill is stale, missing, or not showing up.
 disable-model-invocation: true
 ---
 
-# Onboard a teammate to rai-skills
+# Onboard or refresh a machine for rai-skills
 
-Get a teammate's machine ready to use the `rai-*` skills and the wider RAI skill set. Walk the steps **in order**, fix each before moving on, and finish with a short ✅ / ❌ summary so it's obvious what (if anything) still needs doing.
+Get a machine ready to use the `rai-*` skills and the wider RAI skill set — or **refresh** one whose skills are stale or missing. This skill is **idempotent**: run it on a fresh machine to set up, or re-run it any time as the one-stop repair when a `rai-*` skill is out of date or won't show up (a stale plugin is the #1 cause of a skill "skipping a step"). Walk the steps **in order**, fix each before moving on, and finish with a short ✅ / ❌ summary so it's obvious what (if anything) still needs doing.
 
-Most checks run non-interactively. The two interactive ones (`gh auth login`, the in-app marketplace install) are handed to the teammate — ask them to type the `! <command>` in the prompt and follow it through.
+Most checks run non-interactively. The interactive ones (`gh auth login`, the in-app marketplace install/update) are handed to the teammate — ask them to type the `! <command>` or `/<command>` in the prompt and follow it through.
 
 ## Step 1 — Prerequisites
 
@@ -21,12 +21,24 @@ Check each; install only what's missing, then re-check before continuing.
 
 ## Step 2 — RAI marketplace + plugin
 
-The `rai-*` skills ship through the `rai` Claude Code marketplace. If you're running this skill, it's already installed — confirm and move on. To set up a fresh Claude Code, hand these to the teammate:
+The `rai-*` skills ship through the `rai` Claude Code marketplace. Claude Code does **not** auto-update marketplace plugins, so a stale plugin is the #1 cause of a `rai-*` skill behaving oddly or not appearing — this step both installs it fresh and **refreshes** an existing install.
+
+**Fresh machine —** hand these to the teammate:
 
 ```
 /plugin marketplace add RayAllenInc/RAI-Skills
 /plugin install rai-skills@rai
 ```
+
+**Already installed (refresh / repair) —** update it to the latest from GitHub:
+
+```
+/plugin marketplace update rai
+/plugin update rai-skills@rai
+/reload-plugins
+```
+
+If a `rai-*` skill still isn't in the `/` list or still behaves out of date, **fully quit and reopen Claude** (a new chat is not enough — the desktop app caches skills), then confirm the plugin is enabled under **Customize → plugins**.
 
 - **Whole team at once:** commit the auto-provision snippet from `README.md` into a shared repo's `.claude/settings.json` — teammates are prompted to install when they trust the folder.
 - **Other agents (Codex, etc.):** `npx --yes skills@latest add RayAllenInc/RAI-Skills --full-depth -g -y -a codex` — name the agents the teammate actually uses, space-separated (e.g. `-a codex cursor`); avoid `-a '*'`, which targets every agent skills.sh knows.

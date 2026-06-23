@@ -39,8 +39,8 @@ Before writing anything, read:
 
 Run these in order. Each step is done only when its check holds.
 
-1. **Branch.** Create `feature/<slug>` off the integration branch; you drive git, not the product person.
-   *Done when:* the branch exists off the integration branch, you are on it, and `main` is untouched.
+1. **Branch.** Start from a clean tree, then **fetch `origin` and branch `feature/<slug>` off the latest `origin/<integration>`** (backend `develop`, frontend `dev`) — never a stale local ref; if the local integration branch is behind, fast-forward it first. Branching off a stale integration branch silently builds against outdated code. You drive git, not the product person.
+   *Done when:* the branch exists off the **freshly-fetched** integration tip, you are on it, and `main` is untouched.
 
 2. **Red.** Write the acceptance test from the PRD's acceptance criteria. If the module has no test setup, scaffold the test file and its local wiring — an untested module is not a missing runner (see build-checklist.md); the runner itself is assumed present.
    *Done when:* the test exists and **runs red for the right reason** — it fails because the behavior is absent, not because the harness is broken.
