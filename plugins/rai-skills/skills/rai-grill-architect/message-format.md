@@ -1,51 +1,43 @@
 # Question format
 
-How to lay out each grilling turn so the question can't get buried, the options are pickable, and the text stays lean. Read the `<how-it-feels>` rules in `SKILL.md`; come here for the shape.
+How to lay out each grilling turn so the question can't get buried, the options are pickable, and the reasoning stays easy to read. Read the `<how-it-feels>` rules in `SKILL.md`; come here for the shape.
 
-## The box
+## The turn
 
-Frame **only the question** — it's the one thing to answer, so it gets the strongest frame. `RECAP` (above) and `MY TAKE` / `OPTIONS` (below) sit unboxed around it. Emit the whole turn in a code block so the monospace alignment and the box characters survive; that trades markdown bold for the box and label caps as the emphasis.
+Three parts, in normal proportional markdown — no code block, no monospace. The only frame is a quote bar on the question; the reasoning stays as prose so it reads easily.
 
-```
-  RECAP     reads go through the 10-min cache; writes are sync
-╭─ QUESTION ───────────────────────────────────╮
-│  Sync or async for the recompute — and where │
-│  does it queue?                              │
-╰──────────────────────────────────────────────╯
-  MY TAKE   async via the existing job runner
-  OPTIONS   (a) sync inline
-            (b) async job
-            (c) hybrid: sync write, async fan-out
-```
+> **QUESTION**
+> Sync or async for the renewal recompute — and where does it queue?
 
-## Building the box
+**Options**
+- **(a) Sync inline**
+- **(b) Async via the existing job runner** ⭐
+- **(c) Hybrid — sync write, async fan-out**
 
-A fixed box width keeps the right border aligned:
+**Why (b):** the recompute is too slow to block the write path, and the job runner already gives us retries and backpressure; the hybrid buys a freshness gain nobody asked for at the cost of two code paths to maintain.
 
-1. Pick a fixed box width and keep every line that wide.
-2. Wrap the question to fit inside the borders.
-3. Content lines: `│  ` + text + spaces, so the closing `│` lands at the fixed width.
-4. Top is `╭─ QUESTION ` + `─`-fill + `╮`; bottom is `╰` + `─`-fill + `╯`.
-5. `RECAP` / `MY TAKE` / `OPTIONS` are unboxed and indented 2 spaces (the box sits flush left so it stands out); label in an 8-column field, content hanging-indented.
-6. If clean padding isn't achievable, drop the right border — an aligned open box beats a broken closed one.
+## The parts
+
+- **QUESTION** — in a quote bar with a bold label, so it's the anchor and can't get buried. One question per turn.
+- **Options** — a bullet list; bold the short label of each. Mark the recommendation with a **⭐ at the end of its line** — the star *is* the recommendation. Cap at ~4–5.
+- **Why (x):** — one or two sentences on why the ⭐ option beats the alternatives. An explanation, not an essay.
 
 ## Keeping it lean
 
-The box is the *most* verbose format if every label fires every turn. Two rules stop that:
+- **Recap** only when something was just captured: a short italic lead-in above the question — *Recap: reads already go through the 10-min cache.* Skip it on the first question of an area.
+- **No discrete choices?** Drop the Options list and give the pick in one line — **My take:** <answer> — then the **Why**.
+- The question and options carry the turn; keep the **Why** short so it supports rather than buries them.
 
-1. **Only the labels that carry content this turn.** The floor is the boxed `QUESTION` + `MY TAKE`. Drop `RECAP` on the first question of an area. Fold "why it matters" into `MY TAKE`; give it its own line only when the stakes aren't obvious. Drop `OPTIONS` when there are no discrete choices.
-2. **One line per label.** Each label's value and each option is one line. `OPTIONS` is the only list — the menu for one question, capped at ~4–5, never a dump of sub-points.
+## Collapsed example (open question, no options)
 
-Empty labels just disappear:
+> **QUESTION**
+> Does the recompute need to be idempotent?
 
-```
-╭─ QUESTION ───────────────────────────────────╮
-│  Does the recompute need to be idempotent?   │
-╰──────────────────────────────────────────────╯
-  MY TAKE   yes — key it on the renewal id so retries are safe
-```
+**My take:** yes — key it on the renewal id so retries are safe.
+
+**Why:** the async runner retries on failure, and without an idempotency key a double-run double-counts; keying on the renewal id makes a retry a harmless no-op.
 
 ## The other two messages
 
 - **The escape hatch** ("park it / move on / not sure yet") is stated once at the session open, then resurfaced only on a genuinely hard question — not every turn.
-- **The end-of-area reflect-back** is prose, not a box: a short summary of what the area settled, under a light marker.
+- **The end-of-area reflect-back** is a short prose summary of what the area settled, under a light marker — distinct from a question turn.
