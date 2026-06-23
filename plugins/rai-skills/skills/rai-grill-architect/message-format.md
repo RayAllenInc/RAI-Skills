@@ -1,43 +1,49 @@
 # Question format
 
-How to lay out each grilling turn so the question can't get buried, the options are pickable, and the reasoning stays easy to read. Read the `<how-it-feels>` rules in `SKILL.md`; come here for the shape.
+How to lay out each grilling turn so the question can't get buried, the options are pickable, the reasoning reads easily, and the scrollback becomes a clean record of decisions. Read the `<how-it-feels>` rules in `SKILL.md`; come here for the shape.
 
-## The turn
+A live turn leads with the **previous answer as a Q/A card**, a divider, then the **new open question** — proportional markdown, no code block, no box.
 
-Three parts, in normal proportional markdown — no code block, no monospace. The only frame is a quote bar on the question; the reasoning stays as prose so it reads easily.
+## A turn
+
+> **Q:** Sync or async for the recompute?
+> **A:** Async via the existing job runner ✅
+
+---
 
 > **QUESTION**
-> Sync or async for the renewal recompute — and where does it queue?
+> Does the recompute need to be idempotent — and how do we key it?
 
 **Options**
-- **(a) Sync inline**
-- **(b) Async via the existing job runner** ⭐
-- **(c) Hybrid — sync write, async fan-out**
+- **(a) Idempotent, keyed on the renewal id** — a retry is a harmless no-op ⭐
+- **(b) Non-idempotent, rely on at-most-once delivery**
 
-**Why (b):** the recompute is too slow to block the write path, and the job runner already gives us retries and backpressure; the hybrid buys a freshness gain nobody asked for at the cost of two code paths to maintain.
+**Why (a):** the async runner retries on failure; without a key a double-run double-counts, and at-most-once is hard to guarantee.
 
 ## The parts
 
-- **QUESTION** — in a quote bar with a bold label, so it's the anchor and can't get buried. One question per turn.
-- **Options** — a bullet list; bold the short label of each. Mark the recommendation with a **⭐ at the end of its line** — the star *is* the recommendation. Cap at ~4–5.
+- **Q/A card** — the question just answered, paired with what was chosen, in words (drop the option letter — it's meaningless once the list is gone). Record what was *actually* chosen, even when it overrides your ⭐, so the trail is honest. The first question of an area has no card above it.
+- **`---` divider** — the settled → active boundary: above is done, below is now. The only hard line in a turn.
+- **QUESTION** — in a quote bar with a bold label, the anchor. One question per turn.
+- **Options** — a bullet list; bold each short label; a **⭐ at the end** of the recommended line (the star *is* the recommendation). Cap at ~4–5.
 - **Why (x):** — one or two sentences on why the ⭐ option beats the alternatives. An explanation, not an essay.
 
 ## Keeping it lean
 
-- **Recap** only when something was just captured: a short italic lead-in above the question — *Recap: reads already go through the 10-min cache.* Skip it on the first question of an area.
-- **No discrete choices?** Drop the Options list and give the pick in one line — **My take:** <answer> — then the **Why**.
-- The question and options carry the turn; keep the **Why** short so it supports rather than buries them.
+- **No discrete choices?** Drop the Options list; give the pick in one line — **My take:** <answer> — then the **Why**. The card still pairs Q and A.
+- Keep the **Why** short; the question and options carry the turn.
+- Group tight, separate clean: the card is one unit, the options are one unit, the divider is the only rule.
 
-## Collapsed example (open question, no options)
+## End of an area — the ledger
 
-> **QUESTION**
-> Does the recompute need to be idempotent?
+Stack the area's cards under a heading — `## ✅ Settled — <area>` — with even spacing and no dividers (a uniform set). This *is* the reflect-back: a Q→A record, not a prose paragraph.
 
-**My take:** yes — key it on the renewal id so retries are safe.
+> **Q:** Sync or async for the recompute?
+> **A:** Async via the existing job runner ✅
 
-**Why:** the async runner retries on failure, and without an idempotency key a double-run double-counts; keying on the renewal id makes a retry a harmless no-op.
+> **Q:** Does the recompute need to be idempotent?
+> **A:** Yes — keyed on the renewal id ✅
 
-## The other two messages
+## The escape hatch
 
-- **The escape hatch** ("park it / move on / not sure yet") is stated once at the session open, then resurfaced only on a genuinely hard question — not every turn.
-- **The end-of-area reflect-back** is a short prose summary of what the area settled, under a light marker — distinct from a question turn.
+"park it / move on / not sure yet" is stated once at the session open, then resurfaced only on a genuinely hard question — not every turn.

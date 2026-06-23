@@ -4,7 +4,7 @@
 
 A formatting upgrade for the **questions the grill skills ask during a querying session** — the one-question-at-a-time interview run by `rai-grill-requirement` and `rai-grill-architect`. Goal: **decrease the reader's cognitive load** so each turn is easy to read and easy to act on. Presentation only — not a new skill, and not a change to *what* gets asked.
 
-The format is **proportional markdown**: the question in a quote bar (the anchor), a bulleted **Options** list with a **⭐ on the recommended option**, then a short **Why** explaining the pick.
+The format is **proportional markdown**: the question in a quote bar (the anchor), a bulleted **Options** list with a **⭐ on the recommended option**, then a short **Why** explaining the pick. Once a question is answered it collapses to a two-line **Q/A card**, so the scrollback reads as a record of decisions.
 
 > **Revision note (boxed → proportional).** This began as a monospace **boxed-question** layout — a Unicode box in a code block. Seen rendered live, the closed box came out **ragged** (the live agent couldn't reliably pad every line to a fixed column) and the **monospace prose** in `MY TAKE` was tiring to read. We pivoted to proportional markdown: nothing to misalign, and the reasoning reads in a normal font. The boxed design is preserved in git history (commits `7ed75ba`, `74392ca`).
 
@@ -37,7 +37,8 @@ The first attempt (a monospace box) fixed "buried" but reintroduced "too much te
 | **D3 — Options list, ⭐ marks the pick** | Bulleted `Options`; bold each short label; a **⭐ at the end** of the recommended line. No separate `MY TAKE` when options exist — the star *is* the recommendation. | One scannable list; the eye lands on the ⭐ (pain 2). A recommended default collapses the choice (Hick's Law / defaults). |
 | **D4 — Why after the options** | `**Why (x):**` — one or two sentences on why the ⭐ option beats the alternatives. | The user asked for an explicit reason. Placing it *after* the options keeps the question + choices on top, the rationale in support. |
 | **D5 — Lean by default** | `Recap` only when something was just captured (a short italic lead-in). No discrete choices → drop `Options`, give a one-line `My take:` + `Why`. Keep `Why` to a sentence or two. | The brevity governor (Grice-Quantity, Krug). The 6-line `MY TAKE` seen live is the failure this prevents. |
-| **D6 — Escape hatch once; reflect-back is prose** | "park it / move on / not sure yet" stated once at session open. The end-of-area reflect-back is a short prose summary, distinct from a question turn. | Per-turn escape lines are furniture; the area summary is a different message type. |
+| **D6 — Resolved Q/A card + divider** | Once answered, a question collapses to a two-line card — `Q:` / `A:` with a ✅, the answer in words. It leads the next turn above a `---` divider; the open question follows. | Pairs each question with its decided answer so the scrollback is a clean Q→A record; the divider marks settled → active. |
+| **D7 — Escape hatch once; reflect-back is the ledger** | "park it / move on / not sure yet" stated once at session open. The end-of-area reflect-back is the stack of Q/A cards under a `## ✅ Settled — <area>` heading, not prose. | Per-turn escape lines are furniture; the card ledger is a cleaner record than a paragraph. |
 
 **Out of scope:** progress breadcrumbs; the Appendix A intent work; `rai-setup-skills` / `rai-build-story` messages; the community `grilling` / `domain-modeling` engines (RAI owns the wrappers, not those).
 
@@ -60,6 +61,21 @@ and the customer can't act on our behalf.
 ```
 
 Rendered, that is a quote-barred question, a scannable starred list, and a short reason. **Collapsed** (open question, no discrete options): drop `Options`, give a one-line `My take:` then `Why`. The architect grill uses the identical shape in build register. Full worked examples live in each skill's `message-format.md`.
+
+**Resolved.** Once answered, the question collapses to a Q/A card that leads the next turn, above a divider:
+
+```
+> **Q:** When should the reminder fire?
+> **A:** 30 days before renewal ✅
+
+---
+
+> **QUESTION**
+> Who should get the renewal reminder?
+> …options + why…
+```
+
+At the end of an area the cards stack under a `## ✅ Settled — <area>` heading, no dividers between them — that stack *is* the reflect-back.
 
 ---
 
