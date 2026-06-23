@@ -23,7 +23,7 @@ Interview me relentlessly about *how* to build this feature — using the grilli
 
 Read these first, before asking anything:
 
-- the **PRD** for this feature (the requirement grill's output, synthesized by `to-prd`);
+- the **PRD** for this feature (the requirement grill's output, synthesized by `to-prd`) — note especially any **brownfield "reuse, don't rebuild" constraint** it records: honor it, and confirm the named reusable units in the code (rule 1 / coverage area 7) rather than re-deriving the existing system from scratch;
 - **the parked questions** — `architect-questions.md` in this feature's folder (the questions the requirement grill parked for you). **Find that folder from the repo — don't assume it:** if `docs/agents/issue-tracker.md` exists, use the layout it specifies (e.g. NexaContext uses `features/<slug>/`); otherwise fall back to `.scratch/<feature>/`. The answers it recorded are now your **constraints** ("fresh within the hour → you choose how"). Read it directly; it does not travel inside the PRD. If it's absent — no prior requirement grill, or a fresh session — work from the PRD and code alone, and note the missing parked constraints rather than blocking;
 - the **glossary** (`CONTEXT.md`), existing **ADRs**, and the **code**.
 
@@ -94,6 +94,8 @@ Create or extend `CONTEXT.md` and `docs/adr/` lazily — only once a decision is
 
 <when-done>
 
-When every coverage area is answered or parked and the completeness sweep turns up nothing new, summarize the decisions, then hand off: the story slices feed **`to-issues`**, which files each as an issue in its own repo. For a cross-repo feature, carry the per-repo routing yourself (see [repo-pure-slices.md](./repo-pure-slices.md)). Don't write the issues here — that's `to-issues`' job. Each story then faces the **ReadyToCode gate** before any build: it earns the `ready-for-agent` label only when a *different* co-architect signs off the checklist in [ready-to-code.md](./ready-to-code.md) — never self-applied.
+When every coverage area is answered or parked and the completeness sweep turns up nothing new, summarize the decisions, then hand off: the story slices feed **`to-issues`**, which files each as an issue in its own repo. For a cross-repo feature, carry the per-repo routing yourself (see [repo-pure-slices.md](./repo-pure-slices.md)). Don't write the issues here — that's `to-issues`' job.
+
+**Stop at the story slices — do not jump to a build.** Your output is designed stories, not running code. Each story then faces the **ReadyToCode gate** before any build: it earns the `ready-for-agent` label only when a *different* co-architect signs off the checklist in [ready-to-code.md](./ready-to-code.md) — never self-applied. So **present that gate as the next step; never offer a "create the PR" / "start building" shortcut** that skips it. "The agent says it's done" is not the gate — a named co-architect signing the checklist is.
 
 </when-done>
