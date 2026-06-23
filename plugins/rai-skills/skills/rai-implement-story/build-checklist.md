@@ -1,6 +1,6 @@
 # Build checklist & mechanics
 
-The detail behind `rai-build-story`'s steps. Read the step in `SKILL.md`; come here for *how*.
+The detail behind `rai-implement-story`'s steps. Read the step in `SKILL.md`; come here for *how*.
 
 ## Greenfield harness (step 2)
 

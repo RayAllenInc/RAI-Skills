@@ -40,7 +40,7 @@ The first attempt (a monospace box) fixed "buried" but reintroduced "too much te
 | **D6 — Resolved Q/A card + divider** | Once answered, a question collapses to a two-line card — `Q:` / `A:` with a ✅, the answer in words. It leads the next turn above a `---` divider; the open question follows. | Pairs each question with its decided answer so the scrollback is a clean Q→A record; the divider marks settled → active. |
 | **D7 — Escape hatch once; reflect-back is the ledger** | "park it / move on / not sure yet" stated once at session open. The end-of-area reflect-back is the stack of Q/A cards under a `## ✅ Settled — <area>` heading, not prose. | Per-turn escape lines are furniture; the card ledger is a cleaner record than a paragraph. |
 
-**Out of scope:** progress breadcrumbs; the Appendix A intent work; `rai-setup-skills` / `rai-build-story` messages; the community `grilling` / `domain-modeling` engines (RAI owns the wrappers, not those).
+**Out of scope:** progress breadcrumbs; the Appendix A intent work; `rai-setup-skills` / `rai-implement-story` messages; the community `grilling` / `domain-modeling` engines (RAI owns the wrappers, not those).
 
 ---
 
@@ -81,7 +81,7 @@ At the end of an area the cards stack under a `## ✅ Settled — <area>` headin
 
 ## 4. Where it lives (information hierarchy)
 
-Mirrors the `rai-build-story` + `build-checklist.md` shape: a thin pointer in `SKILL.md`, detail one level deep in a sibling.
+Mirrors the `rai-implement-story` + `build-checklist.md` shape: a thin pointer in `SKILL.md`, detail one level deep in a sibling.
 
 - **`message-format.md` in each skill dir** — the layout, the parts, the lean rules, and register-appropriate examples. Duplicated across the two dirs on purpose (each skill stays self-contained and portable; examples differ by register).
 - **`<how-it-feels>` in each `SKILL.md`** points one level deep to the sibling and states the shape in one bullet.
@@ -154,6 +154,6 @@ Changes that improve *how well the interview surfaces true intent*. They alter q
 ## 8. References
 
 - `rai-grill-requirement/SKILL.md`, `rai-grill-architect/SKILL.md` — the `<how-it-feels>` sections this edits; house style.
-- `rai-build-story/SKILL.md` + `build-checklist.md` — the thin-SKILL + disclosed-sibling pattern this mirrors.
+- `rai-implement-story/SKILL.md` + `build-checklist.md` — the thin-SKILL + disclosed-sibling pattern this mirrors.
 - `grilling` (community) — the engine both skills run; "one question at a time" is the only formatting rule it carries. Not edited.
 - `CLAUDE.md` — authoring rules (tool-neutral, ≤100-line SKILL.md, detail one level deep, bump `plugin.json` on release).

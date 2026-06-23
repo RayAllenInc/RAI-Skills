@@ -10,7 +10,7 @@ Skills follow the open [Agent Skills standard](https://agentskills.io) (`SKILL.m
 | --- | --- |
 | `rai-grill-requirement` | Grills a product manager on a feature idea in plain, outcome-focused language, turning it into sharp requirements plus a shared glossary and decisions, then hands off to `to-prd`. Builds on the community `grilling` + `domain-modeling` skills (the pair the `grill-with-docs` wrapper composes; installed by `rai-setup-skills`). |
 | `rai-grill-architect` | The stage-2 inverse: grills an architect on *how* to build the feature with the codebase fully on the table, turning a PRD and the parked build questions into ADRs, the shared shape any two sides exchange, and repo-pure story slices, then hands off to `to-issues`. Also builds on `grilling` + `domain-modeling`. |
-| `rai-build-story` | Builds one repo-pure, `ready-for-agent` story into a reviewed, test-backed pull request — test-first (`red → green`), branch-write/prod-blind, stopping at PR. Phase 4 of the pipeline; restates its loop inline and leans on community `tdd`/`review` when present. |
+| `rai-implement-story` | Implements one repo-pure, `ready-for-agent` story into a reviewed, test-backed pull request — test-first (`red → green`), branch-write/prod-blind, stopping at PR. Phase 4 of the pipeline; restates its loop inline and leans on community `tdd`/`review` when present. |
 | `rai-setup-skills` | Onboarding check for a new teammate (today: GitHub CLI installed + authenticated). |
 
 The canonical skill folders live under **`plugins/rai-skills/skills/`**.

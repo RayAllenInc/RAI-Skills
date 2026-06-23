@@ -1,6 +1,6 @@
 ---
-name: rai-build-story
-description: Build one ready-for-agent story into a reviewed, test-backed pull request — Phase 4 of the AI-native pipeline. Use when an agent or developer is ready to implement a single repo-pure story (it links a PRD and names its contract) and open its PR, or when an AFK runtime picks up a ready-for-agent story to build. Follows to-issues; precedes human review.
+name: rai-implement-story
+description: Implement one ready-for-agent story into a reviewed, test-backed pull request — Phase 4 of the AI-native pipeline. Use when an agent or developer is ready to implement a single repo-pure story (it links a PRD and names its contract) and open its PR, or when an AFK runtime picks up a ready-for-agent story to build. Follows to-issues; precedes human review.
 ---
 
 <built-on>
