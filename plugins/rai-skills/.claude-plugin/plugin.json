@@ -1,6 +1,6 @@
 {
   "name": "rai-skills",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Grilling, onboarding/provisioning, and PRD-to-triage workflow skills for the RAI AI-native workflow.",
   "author": {
     "name": "Ray Allen Inc"
