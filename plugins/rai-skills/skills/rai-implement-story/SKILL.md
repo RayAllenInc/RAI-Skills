@@ -1,6 +1,6 @@
 ---
 name: rai-implement-story
-description: Implement one ready-for-agent story into a reviewed, test-backed pull request — Phase 4 of the AI-native pipeline. Use when an agent or developer is ready to implement a single repo-pure story (it links a PRD and names its contract) and open its PR, or when an AFK runtime picks up a ready-for-agent story to build. Follows to-issues; precedes human review.
+description: Implement one ready-for-agent story into a reviewed, test-backed pull request — Phase 4 of the AI-native pipeline. Use when an agent or developer is ready to implement a single repo-pure story (it links a PRD and shapes the seam it builds against — an internal interface or a cross-repo contract) and open its PR, or when an AFK runtime picks up a ready-for-agent story to build. Follows to-issues; precedes human review.
 ---
 
 <built-on>
@@ -11,12 +11,12 @@ This skill restates the test-first build loop inline — **red → green → rev
 
 <preconditions>
 
-Confirm the **environment contract** before building. If one is missing, stop and ask for it rather than improvising:
+Confirm the **environment contract** before building. If one is missing, stop and ask for it rather than improvising. Its shape depends on the **archetype** — a two-repo product (e.g. NexaCore: a code repo + a separate Context repo) or a single-repo tool/library (code and context in **one** repo, where "the contract" is the story's shaped internal seam):
 
-1. A **writable checkout of the target code repo**, on a clean integration branch (backend `develop`, frontend `dev`), with push rights to **branches only**.
-2. A **readable Context repo** (NexaContext): `CONTEXT.md`, `docs/adr/`, `features/<slug>/PRD.md`, `features/<slug>/contract/`.
+1. A **writable checkout of the target code repo**, on a clean integration branch (NexaCore: backend `develop`, frontend `dev`; single-repo: that repo's integration branch), with push rights to **branches only**.
+2. **Readable context** — `CONTEXT.md`, `docs/adr/`, the feature's `PRD.md`, and the seam the story builds against. In a two-repo product this is the Context repo (NexaContext: `features/<slug>/PRD.md`, `features/<slug>/contract/`); in a single-repo tool it's the same repo.
 3. A **test runner that can run *this story's* test in the loop** — locally, without infra the checkout lacks. A runner that only works against a live app, a real database, or a network the build can't reach (e.g. an E2E-only frontend with no mock or component harness) does **not** satisfy this: if that's all there is, **stop and flag it** rather than writing a test you can never run red→green. (Standing up a runner where there is none is a one-time per-repo decision, not this skill's job — see build-checklist.md.)
-4. **One repo-pure story** — single side, single repo — that links its PRD and names the **contract version** and shared shape it targets, and that earned its **`ready-for-agent`** label at the ReadyToCode gate (signed off by someone other than its author, not self-applied).
+4. **One story scoped to one side, one repo** that links its PRD and names *and points at* the **shaped seam** it targets — a versioned cross-repo contract, or an internal interface — and that earned its **`ready-for-agent`** label at the **ReadyToCode gate** (the `rai-ready-to-code` skill: an independent, adversarial review, architect-approved).
 
 How those got there — a bootstrapped workspace, an AFK sandbox, a laptop — is not this skill's concern.
 
@@ -28,7 +28,7 @@ Before writing anything, read:
 
 - the **story** (the unit of work — one side, one repo);
 - its **PRD** (`features/<slug>/PRD.md`) — the acceptance criteria are your definition of "done";
-- the **contract** (`features/<slug>/contract/`) and the shared shape the story references — you **build against the contract**;
+- the **shaped seam** the story builds against — a cross-repo contract (`features/<slug>/contract/`) or an internal interface — you **build against the seam**;
 - the **glossary** (`CONTEXT.md`) — use its exact vocabulary;
 - the **ADRs** touching this area — honor them; if your build would contradict one, **surface it**, never silently override;
 - the **code in place** at the seams the story names.
@@ -45,7 +45,7 @@ Run these in order. Each step is done only when its check holds.
 2. **Red.** Write the acceptance test from the PRD's acceptance criteria. If the module has no test setup, scaffold the test file and its local wiring — an untested module is not a missing runner (see build-checklist.md); the runner itself is assumed present.
    *Done when:* the test exists and **runs red for the right reason** — it fails because the behavior is absent, not because the harness is broken.
 
-3. **Green.** Write the minimal code to pass — **build against the contract** (or its mock), at the named seams. Run typecheck and the test command after each meaningful change.
+3. **Green.** Write the minimal code to pass — **build against the shaped seam** (its signatures, or a contract/mock for cross-repo work), at the seams the story names. Run typecheck and the test command after each meaningful change.
    *Done when:* the acceptance test and the full test command run **green**, and typecheck passes.
 
 4. **Skeptical review.** Review the change with a red-team posture: does it meet every acceptance criterion? does it follow the repo's standards and the ADRs? where are the holes? *(This review is **the seam** where the v2 second-model challenge will slot in.)*
@@ -55,7 +55,7 @@ Run these in order. Each step is done only when its check holds.
    *Done when:* every decision or gap the build surfaced is captured as a context-feedback note, or there were none.
 
 6. **PR from template.** Commit, push the branch, and open a pull request using the repo's template (fields in build-checklist.md). Then stop.
-   *Done when:* a PR is open from the branch, linking the story and PRD, naming the contract version built against, and listing the tests added and the context-feedback notes.
+   *Done when:* a PR is open from the branch, linking the story and PRD, naming the seam (and, for a cross-repo contract, its version) built against, and listing the tests added and the context-feedback notes.
 
 </the-build-loop>
 
@@ -74,4 +74,4 @@ Hand off the open PR to human review (Phase 5). Release notes are Phase 7 (`rai-
 
 </when-done>
 
-See **[build-checklist.md](./build-checklist.md)** for harness scaffolding, contract/mock mechanics, the prod-blind checklist, and the PR-template fields.
+See **[build-checklist.md](./build-checklist.md)** for harness scaffolding, seam & contract/mock mechanics, the prod-blind checklist, and the PR-template fields.
