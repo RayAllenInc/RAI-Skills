@@ -103,4 +103,6 @@ Read any existing `CONTEXT.md` and `docs/adr/` before exploring; create them laz
 
 When coverage is solid and the sweep is clean, summarize the decisions in the conversation, then hand off: tell me to run `to-prd`, which synthesizes the PRD for the architect to review from this conversation and the glossary and ADRs we captured. (`to-prd` doesn't read the parked-questions file — that's for the later architect grill — so anything the PRD needs must surface in the conversation.) Don't write the PRD here — that's `to-prd`'s job.
 
+**Then commit the PRD on the feature branch** where `docs/agents/issue-tracker.md` specifies (e.g. `features/<slug>/PRD.md`; `.scratch/<feature>/PRD.md` when none is configured), not only as a tracker issue. The branch is the source of truth: a committed `PRD.md` is what lights up the *Requirements* stage for status tooling and what `rai-implement-story` reads as its definition of done. (`to-prd` is a community skill, so this on-branch commit is the rai convention layered on top of it — do it after `to-prd` runs.)
+
 </when-done>

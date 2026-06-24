@@ -14,14 +14,14 @@ The **first test in a previously-untested module** is yours, though. When the ru
 
 Keep the scaffolding minimal: enough to make this story's acceptance test run red, no speculative harness for tests you have not written.
 
-## Contract mechanics (steps 2–3)
+## Seam mechanics (steps 2–3)
 
-You **build against the contract** — the shared shape the two sides exchange, which for NexaCore is a **versioned OpenAPI spec** in `features/<slug>/contract/`. ADR-0002 in NexaContext makes the contract the authority; do not drift back to a looser "shared shape" reading.
+You **build against the shaped seam** the story names — its concrete interface, the decision already made upstream so you don't invent it. How heavy the seam is depends on the archetype:
 
-- **Backend story:** implement the endpoint so it satisfies the contract, and **provider-test** against it — prove the response matches the shape the contract promises.
-- **Frontend story:** build against the **mock generated from the contract**, so the frontend is buildable and testable before the backend merges.
+- **Single-repo tool/library:** the seam is an **internal interface** (e.g. a Core↔adapter boundary). Build to the signatures the story shaped, and test through that seam with a fake / in-memory implementation. There is no separate contract artifact.
+- **Cross-repo product (NexaCore):** the seam is a **versioned cross-repo contract** — a **versioned OpenAPI spec** in `features/<slug>/contract/`; ADR-0002 in NexaContext makes it the authority. The **backend** implements the endpoint to satisfy it and **provider-tests** against it; the **frontend** builds against the **mock generated from it**, so it's buildable before the backend merges.
 
-Each story names the **contract version** it targets; record that version in the PR (step 6) so "what we built against" survives the integration branches moving underneath you.
+When the seam is a versioned contract, name the **version** the story targets and record it in the PR (step 6) so "what we built against" survives the integration branches moving underneath you.
 
 ## Prod-blind checklist (guardrails)
 
@@ -38,9 +38,9 @@ If the repo ships a PR template, fill it; otherwise include at least:
 
 - **Story** — link to the issue this builds;
 - **PRD** — link to `features/<slug>/PRD.md`;
-- **Contract version** — the version built against;
+- **Seam** — the interface built against (and its version, for a cross-repo contract);
 - **Tests** — what was added and what it proves;
-- **Context feedback** — the notes from step 5 (decisions, ambiguous ACs, missing ADRs, glossary drift) for the reviewer to fold back into NexaContext — or "none".
+- **Context feedback** — the notes from step 5 (decisions, ambiguous ACs, missing ADRs, glossary drift) for the reviewer to fold back into the durable context (the Context repo, or this same repo in a single-repo tool) — or "none".
 
 ## Repo-pure reminder (guardrails)
 

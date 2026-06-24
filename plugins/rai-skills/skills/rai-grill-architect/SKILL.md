@@ -52,7 +52,7 @@ Make the first session the best, most complete one: exhaustive in what you cover
 
 Cover at least these — a floor, not a ceiling:
 
-1. **The interface** — for a feature spanning two sides, the shape of the data they exchange
+1. **The seams** — the interfaces this story builds against: internal module seams (a Core↔adapter boundary) *and* any cross-side data shape. Name them, then **shape** them — signatures, the data shape, the error cases — so the build isn't left to invent them
 2. **Data & state** — the model, who owns what, migrations and backfills
 3. **Consistency & timing** — sync vs async, freshness, ordering, idempotency
 4. **Failure & recovery** — what happens when each dependency fails; retries, fallbacks
@@ -87,7 +87,7 @@ Capture decisions inline as they crystallize — don't batch them. Use domain-mo
 
 **The glossary (`CONTEXT.md`) stays a pure glossary.** Implementation detail lives in ADRs, never here. Add a term only when the build surfaces a new domain word or sharpens an existing one.
 
-**For a feature that spans two sides** (e.g. a backend and a frontend), capture the shape they exchange once and slice the work so each story touches a single side — see [repo-pure-slices.md](./repo-pure-slices.md).
+**Shape the seams each story builds against** — write each one down concretely (an internal interface, or a cross-side data shape), so the ReadyToCode gate's "seams shaped, not just named" line passes. When a seam crosses two separately-merged repos it becomes a **cross-repo contract**; formalize it only as heavily as the two sides' independence demands, and slice the work repo-pure — see [seams-and-contracts.md](./seams-and-contracts.md).
 
 Create or extend `CONTEXT.md` and `docs/adr/` lazily — only once a decision is real.
 
@@ -95,8 +95,8 @@ Create or extend `CONTEXT.md` and `docs/adr/` lazily — only once a decision is
 
 <when-done>
 
-When every coverage area is answered or parked and the completeness sweep turns up nothing new, summarize the decisions, then hand off: the story slices feed **`to-issues`**, which files each as an issue in its own repo. For a cross-repo feature, carry the per-repo routing yourself (see [repo-pure-slices.md](./repo-pure-slices.md)). Don't write the issues here — that's `to-issues`' job.
+When every coverage area is answered or parked and the completeness sweep turns up nothing new, summarize the decisions, then hand off: the story slices feed **`to-issues`**, which files each as an issue in its own repo. For a cross-repo feature, carry the per-repo routing yourself (see [seams-and-contracts.md](./seams-and-contracts.md)). Don't write the issues here — that's `to-issues`' job.
 
-**Stop at the story slices — do not jump to a build.** Your output is designed stories, not running code. Each story then faces the **ReadyToCode gate** before any build: it earns the `ready-for-agent` label only when a *different* co-architect signs off the checklist in [ready-to-code.md](./ready-to-code.md) — never self-applied. So **present that gate as the next step; never offer a "create the PR" / "start building" shortcut** that skips it. "The agent says it's done" is not the gate — a named co-architect signing the checklist is.
+**Stop at the story slices — do not jump to a build.** Your output is designed stories, not running code. Each story then faces the **ReadyToCode gate** before any build — the **`rai-ready-to-code`** skill: it earns the `ready-for-agent` label only after that mandatory independent, adversarial review finds no surviving loose end and the architect approves. **Present that gate as the next step**, not a build.
 
 </when-done>
