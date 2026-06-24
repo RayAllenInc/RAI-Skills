@@ -40,7 +40,7 @@ If the repo ships a PR template, fill it; otherwise include at least:
 - **PRD** — link to `features/<slug>/PRD.md`;
 - **Seam** — the interface built against (and its version, for a cross-repo contract);
 - **Tests** — what was added and what it proves;
-- **Context feedback** — the notes from step 5 (decisions, ambiguous ACs, missing ADRs, glossary drift) for the reviewer to fold back into NexaContext — or "none".
+- **Context feedback** — the notes from step 5 (decisions, ambiguous ACs, missing ADRs, glossary drift) for the reviewer to fold back into the durable context (the Context repo, or this same repo in a single-repo tool) — or "none".
 
 ## Repo-pure reminder (guardrails)
 

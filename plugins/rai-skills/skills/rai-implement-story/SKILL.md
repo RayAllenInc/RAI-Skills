@@ -27,7 +27,7 @@ How those got there — a bootstrapped workspace, an AFK sandbox, a laptop — i
 Before writing anything, read:
 
 - the **story** (the unit of work — one side, one repo);
-- its **PRD** (`features/<slug>/PRD.md`) — the acceptance criteria are your definition of "done";
+- its **PRD** — the feature's `PRD.md` at the layout the repo's `docs/agents/issue-tracker.md` specifies (`features/<slug>/PRD.md` in NexaContext) — the acceptance criteria are your definition of "done";
 - the **shaped seam** the story builds against — a cross-repo contract (`features/<slug>/contract/`) or an internal interface — you **build against the seam**;
 - the **glossary** (`CONTEXT.md`) — use its exact vocabulary;
 - the **ADRs** touching this area — honor them; if your build would contradict one, **surface it**, never silently override;
@@ -39,7 +39,7 @@ Before writing anything, read:
 
 Run these in order. Each step is done only when its check holds.
 
-1. **Branch.** Start from a clean tree, then **fetch `origin` and branch `feature/<slug>` off the latest `origin/<integration>`** (backend `develop`, frontend `dev`) — never a stale local ref; if the local integration branch is behind, fast-forward it first. Branching off a stale integration branch silently builds against outdated code. You drive git, not the product person.
+1. **Branch.** Start from a clean tree, then **fetch `origin` and branch `feature/<slug>` off the latest `origin/<integration>`** (NexaCore: backend `develop`, frontend `dev`; single-repo tool: that repo's integration branch, e.g. `main`) — never a stale local ref; if the local integration branch is behind, fast-forward it first. Branching off a stale integration branch silently builds against outdated code. You drive git, not the product person.
    *Done when:* the branch exists off the **freshly-fetched** integration tip, you are on it, and `main` is untouched.
 
 2. **Red.** Write the acceptance test from the PRD's acceptance criteria. If the module has no test setup, scaffold the test file and its local wiring — an untested module is not a missing runner (see build-checklist.md); the runner itself is assumed present.
@@ -51,7 +51,7 @@ Run these in order. Each step is done only when its check holds.
 4. **Skeptical review.** Review the change with a red-team posture: does it meet every acceptance criterion? does it follow the repo's standards and the ADRs? where are the holes? *(This review is **the seam** where the v2 second-model challenge will slot in.)*
    *Done when:* every acceptance criterion is accounted for, every touched ADR is honored or its contradiction surfaced, and each finding is addressed or deferred with a stated reason.
 
-5. **The fix belongs in the context.** Capture anything the build surfaced that belongs in the durable context — an ambiguous acceptance criterion, a missing ADR, glossary drift — as a note for the reviewer to fold back into NexaContext. Note it; do **not** edit the Context repo mid-build.
+5. **The fix belongs in the context.** Capture anything the build surfaced that belongs in the durable context — an ambiguous acceptance criterion, a missing ADR, glossary drift — as a note for the reviewer to fold back into the durable context (the Context repo in a two-repo product, or this same repo's `CONTEXT.md`/`docs/adr/` in a single-repo tool). Capture it as a note; don't scope-creep the build by editing the context mid-build.
    *Done when:* every decision or gap the build surfaced is captured as a context-feedback note, or there were none.
 
 6. **PR from template.** Commit, push the branch, and open a pull request using the repo's template (fields in build-checklist.md). Then stop.

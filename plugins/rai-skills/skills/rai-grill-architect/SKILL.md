@@ -97,6 +97,6 @@ Create or extend `CONTEXT.md` and `docs/adr/` lazily — only once a decision is
 
 When every coverage area is answered or parked and the completeness sweep turns up nothing new, summarize the decisions, then hand off: the story slices feed **`to-issues`**, which files each as an issue in its own repo. For a cross-repo feature, carry the per-repo routing yourself (see [seams-and-contracts.md](./seams-and-contracts.md)). Don't write the issues here — that's `to-issues`' job.
 
-**Stop at the story slices — do not jump to a build.** Your output is designed stories, not running code. Each story then faces the **ReadyToCode gate** before any build — the **`rai-ready-to-code`** skill: it earns the `ready-for-agent` label only after that mandatory independent, adversarial review finds no surviving loose end and the architect approves. So **present that gate as the next step; never offer a "create the PR" / "start building" shortcut** that skips it. "The agent says it's done" is not the gate.
+**Stop at the story slices — do not jump to a build.** Your output is designed stories, not running code. Each story then faces the **ReadyToCode gate** before any build — the **`rai-ready-to-code`** skill: it earns the `ready-for-agent` label only after that mandatory independent, adversarial review finds no surviving loose end and the architect approves. **Present that gate as the next step**, not a build.
 
 </when-done>
