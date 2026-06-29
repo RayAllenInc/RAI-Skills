@@ -48,7 +48,7 @@ Run these in order. Each step is done only when its check holds.
 3. **Green.** Write the minimal code to pass — **build against the shaped seam** (its signatures, or a contract/mock for cross-repo work), at the seams the story names. Run typecheck and the test command after each meaningful change.
    *Done when:* the acceptance test and the full test command run **green**, and typecheck passes.
 
-4. **Skeptical review.** Review the change with a red-team posture: does it meet every acceptance criterion? does it follow the repo's standards and the ADRs? where are the holes? *(This review is **the seam** where the v2 second-model challenge will slot in.)*
+4. **Independent skeptical review.** Attack the build with a red-team posture — ideally a fresh reviewer that did **not** write the code (a second agent/model, or at minimum a clean pass), because the author's own tests encode the author's blind spot. Does it meet every acceptance criterion? does it follow the repo's standards and the ADRs? where are the holes? Treat a green suite as suspect, not proof: **green tests ≠ acceptance criteria met** when the test setup quietly dodges the hard case. See build-checklist.md for what this pass catches.
    *Done when:* every acceptance criterion is accounted for, every touched ADR is honored or its contradiction surfaced, and each finding is addressed or deferred with a stated reason.
 
 5. **The fix belongs in the context.** Capture anything the build surfaced that belongs in the durable context — an ambiguous acceptance criterion, a missing ADR, glossary drift — as a note for the reviewer to fold back into the durable context (the Context repo in a two-repo product, or this same repo's `CONTEXT.md`/`docs/adr/` in a single-repo tool). Capture it as a note; don't scope-creep the build by editing the context mid-build.
@@ -70,7 +70,7 @@ Run these in order. Each step is done only when its check holds.
 
 <when-done>
 
-Hand off the open PR to human review (Phase 5). Release notes are Phase 7 (`rai-release-notes`). The second-model challenge — a second model attacking the build before the PR — is the planned upgrade at the review seam (step 4); it is not part of v1.
+Hand off the open PR to human review (Phase 5). Release notes are Phase 7 (`rai-release-notes`). The step-4 review runs **before** the PR — it gates human review, it doesn't replace it; a solo runtime with no second agent still runs it against its own work and never skips.
 
 </when-done>
 

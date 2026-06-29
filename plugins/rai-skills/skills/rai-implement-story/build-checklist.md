@@ -23,6 +23,14 @@ You **build against the shaped seam** the story names — its concrete interface
 
 When the seam is a versioned contract, name the **version** the story targets and record it in the PR (step 6) so "what we built against" survives the integration branches moving underneath you.
 
+## Skeptical review (step 4)
+
+The highest-value pass in the loop, and the one a green test bar most tempts you to skip. Run it **independent** of whoever wrote the code — ideally a fresh agent/model — because the author's tests encode the author's blind spot: the case the code gets wrong is often the exact case the author's test quietly avoids (a "safe" default that sidesteps the failure path, an input that never exercises the guard). So attack the *guarantee the story exists to make*, not the tests that are already green:
+
+- **Re-derive each acceptance criterion from scratch** and confirm the build meets it — don't re-read the tests and nod along.
+- **For every guarantee** (never-hangs, never-loses-data, byte-for-byte parity), find the input that would break it and confirm a test actually drives that input — a green suite that never feeds the dangerous case proves nothing about it.
+- **If the same agent wrote and reviewed in one pass, say so in the PR** — a self-review is weaker evidence, and a second pass before merge is cheap insurance.
+
 ## Prod-blind checklist (guardrails)
 
 Before you push, confirm:
@@ -40,6 +48,7 @@ If the repo ships a PR template, fill it; otherwise include at least:
 - **PRD** — link to `features/<slug>/PRD.md`;
 - **Seam** — the interface built against (and its version, for a cross-repo contract);
 - **Tests** — what was added and what it proves;
+- **Self-review** — whether the step-4 review was independent (a different agent/model) or the author reviewing their own build; flag the latter;
 - **Context feedback** — the notes from step 5 (decisions, ambiguous ACs, missing ADRs, glossary drift) for the reviewer to fold back into the durable context (the Context repo, or this same repo in a single-repo tool) — or "none".
 
 ## Repo-pure reminder (guardrails)
