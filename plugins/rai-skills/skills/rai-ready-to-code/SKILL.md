@@ -35,9 +35,9 @@ Because the review — not the reviewer's identity — is what stays independent
 
 Every line must be **yes**:
 
-- [ ] **Dependencies satisfied** — everything the story needs already exists or is a named earlier story; nothing it claims to "reuse" is actually unbuilt (open the code and check).
+- [ ] **Dependencies satisfied** — everything the story needs already exists or is a named earlier story; nothing it claims to "reuse" is actually unbuilt (open the code and check). *(Greenfield: nothing to open yet — check against the founding ADRs instead.)*
 - [ ] **Seams shaped, not just named** — every interface the story builds against is written down concretely (signatures, the data shape, the error/edge cases), not referenced by name only. A *named* seam is a decision punted to the builder; a *shaped* seam is the decision made. For a cross-repo seam the shaped form is the contract — see the architect grill's `seams-and-contracts.md`.
-- [ ] **Acceptance test is concrete and runnable** — a builder could turn it red *today*, with the runner and data the repo actually has. No "test against the live app."
+- [ ] **Acceptance test is concrete and runnable** — a builder could turn it red *today*, with the runner and data the repo actually has. No "test against the live app." *(Bootstrap-story exception: on a net-new repo the runner may not exist yet — instead require the story to stand it up per the founding ADRs, with a test concrete enough to run the moment it does.)*
 - [ ] **Every real decision is an ADR** — the story rests on recorded decisions, not on what was said in the room; a cold reader sees the *why*.
 - [ ] **Repo-pure** — one side, one repo (always trivially true for a single-repo tool).
 - [ ] **One-window** — a single agent can hold the whole story, its PRD slice, and the seams it touches at once.
@@ -58,6 +58,6 @@ Approved-by: <architect>
 
 A story marked `ready-for-agent` with no recorded `ReadyToCode:` line **has not passed the gate** — treat it as not-ready and send it back. On a clean PASS, hand the story to `rai-implement-story`.
 
-**Setup (once per repo):** the `ready-for-agent` label must exist in the repo's tracker; create it if missing.
+**Setup (once per repo):** the `ready-for-agent` label must exist in the repo's tracker; create it if missing. *(A net-new product's **bootstrap story** has no tracker yet — gate it in `.scratch/<feature>/`, record the PASS inline in the story file, and defer the label until the bootstrap story creates the tracker.)*
 
 </sign-off>
