@@ -2,17 +2,27 @@
 
 The detail behind `rai-implement-story`'s steps. Read the step in `SKILL.md`; come here for *how*.
 
-## Greenfield harness (step 2)
+## The runner: established repo vs. bootstrap story (steps 1–2)
 
-The **runner** is a precondition — the repo must already have a test framework installed and a command that runs the suite. Standing one up where there is none is a one-time decision (which framework, how it wires into CI) that belongs in an ADR, not in a story build. If there is no runner at all, **stop and ask** for one.
-
-The **first test in a previously-untested module** is yours, though. When the runner exists but this module has never been tested:
+**Established repo (the default).** The **runner** is a precondition — the repo already has a test framework installed and a command that runs the suite. Standing one up where there is none is *not* this skill's job here: it is a one-time decision (which framework, how it wires into CI) that belongs in an ADR. If a runner is expected but missing, **stop and ask** for one rather than improvising a parallel framework. The **first test in a previously-untested module** is still yours, though — when the runner exists but this module has never been tested:
 
 - create the test file beside the code it covers, following the repo's existing test-file naming;
 - add only the local wiring that one test needs (imports, a fixture, a minimal setup helper) — not a new framework;
 - write fixtures as **synthetic data**, never copied from prod or a customer.
 
 Keep the scaffolding minimal: enough to make this story's acceptance test run red, no speculative harness for tests you have not written.
+
+**Bootstrap story of a net-new product (the one exception).** When the architect grill marked story #1 `Bootstrap: yes` (a net-new repo with no runner yet), standing up the project *is* the story — executed against the **founding ADRs** the architect recorded (language/runtime, framework, persistence, repo layout, test strategy, runner, CI — see the architect grill's `foundational-architecture.md`). Its green step:
+
+- `git init` (no `origin` yet — see "Branching a net-new repo" below) and scaffold the project skeleton per the founding ADRs;
+- install and wire the **test runner** + **CI**;
+- **commit the `.scratch/<feature>/` PRD and ADRs into the new repo** at the configured layout, restoring "the branch is the source of truth";
+- write the repo's **`docs/agents/issue-tracker.md`** and create the **`ready-for-agent`** label, so the *remaining* stories can be filed by `to-issues` and gated normally;
+- prove the runner with a **real** red→green: bundle the first thin vertical feature (one acceptance test) into this story so something meaningful turns red. A pure-scaffold story whose only test is a trivial smoke test is weak test-first evidence — prefer a real first slice, and say so on the story if there genuinely isn't one.
+
+## Branching a net-new repo (step 1)
+
+The bootstrap story has no `origin` to fetch. `git init`, commit the scaffold, and branch `feature/<slug>` off the local integration branch; **push once a remote exists**. This no-origin path fires **only** when there is genuinely no remote — never as a fallback when a `fetch` merely failed (that still stops, to protect the freshness guarantee on an established repo).
 
 ## Seam mechanics (steps 2–3)
 

@@ -13,9 +13,9 @@ This skill restates the test-first build loop inline — **red → green → rev
 
 Confirm the **environment contract** before building. If one is missing, stop and ask for it rather than improvising. Its shape depends on the **archetype** — a two-repo product (e.g. NexaCore: a code repo + a separate Context repo) or a single-repo tool/library (code and context in **one** repo, where "the contract" is the story's shaped internal seam):
 
-1. A **writable checkout of the target code repo**, on a clean integration branch (NexaCore: backend `develop`, frontend `dev`; single-repo: that repo's integration branch), with push rights to **branches only**.
+1. A **writable checkout of the target code repo**, on a clean integration branch (NexaCore: backend `develop`, frontend `dev`; single-repo: that repo's integration branch), with push rights to **branches only**. *(Exception — the **bootstrap story** of a net-new product: there is no repo yet; standing it up is what this story does. See build-checklist.md.)*
 2. **Readable context** — `CONTEXT.md`, `docs/adr/`, the feature's `PRD.md`, and the seam the story builds against. In a two-repo product this is the Context repo (NexaContext: `features/<slug>/PRD.md`, `features/<slug>/contract/`); in a single-repo tool it's the same repo.
-3. A **test runner that can run *this story's* test in the loop** — locally, without infra the checkout lacks. A runner that only works against a live app, a real database, or a network the build can't reach (e.g. an E2E-only frontend with no mock or component harness) does **not** satisfy this: if that's all there is, **stop and flag it** rather than writing a test you can never run red→green. (Standing up a runner where there is none is a one-time per-repo decision, not this skill's job — see build-checklist.md.)
+3. A **test runner that can run *this story's* test in the loop** — locally, without infra the checkout lacks. A runner that only works against a live app, a real database, or a network the build can't reach (e.g. an E2E-only frontend with no mock or component harness) does **not** satisfy this: if that's all there is, **stop and flag it** rather than writing a test you can never run red→green. (Standing up a runner where there is none is normally a one-time per-repo decision, not this skill's job — **except on the bootstrap story of a net-new product, where creating the repo, runner, and CI per the founding ADRs _is_ the story** — see build-checklist.md.)
 4. **One story scoped to one side, one repo** that links its PRD and names *and points at* the **shaped seam** it targets — a versioned cross-repo contract, or an internal interface — and that earned its **`ready-for-agent`** label at the **ReadyToCode gate** (the `rai-ready-to-code` skill: an independent, adversarial review, architect-approved).
 
 How those got there — a bootstrapped workspace, an AFK sandbox, a laptop — is not this skill's concern.
@@ -27,7 +27,7 @@ How those got there — a bootstrapped workspace, an AFK sandbox, a laptop — i
 Before writing anything, read:
 
 - the **story** (the unit of work — one side, one repo);
-- its **PRD** — the feature's `PRD.md` at the layout the repo's `docs/agents/issue-tracker.md` specifies (`features/<slug>/PRD.md` in NexaContext) — the acceptance criteria are your definition of "done";
+- its **PRD** — the feature's `PRD.md` at the layout the repo's `docs/agents/issue-tracker.md` specifies (`features/<slug>/PRD.md` in NexaContext; `.scratch/<feature>/PRD.md` when no tracker is configured yet, e.g. a net-new repo) — the acceptance criteria are your definition of "done";
 - the **shaped seam** the story builds against — a cross-repo contract (`features/<slug>/contract/`) or an internal interface — you **build against the seam**;
 - the **glossary** (`CONTEXT.md`) — use its exact vocabulary;
 - the **ADRs** touching this area — honor them; if your build would contradict one, **surface it**, never silently override;
@@ -39,10 +39,10 @@ Before writing anything, read:
 
 Run these in order. Each step is done only when its check holds.
 
-1. **Branch.** Start from a clean tree, then **fetch `origin` and branch `feature/<slug>` off the latest `origin/<integration>`** (NexaCore: backend `develop`, frontend `dev`; single-repo tool: that repo's integration branch, e.g. `main`) — never a stale local ref; if the local integration branch is behind, fast-forward it first. Branching off a stale integration branch silently builds against outdated code. You drive git, not the product person.
-   *Done when:* the branch exists off the **freshly-fetched** integration tip, you are on it, and `main` is untouched.
+1. **Branch.** Start from a clean tree, then **fetch `origin` and branch `feature/<slug>` off the latest `origin/<integration>`** (NexaCore: backend `develop`, frontend `dev`; single-repo tool: that repo's integration branch, e.g. `main`) — never a stale local ref; if the local integration branch is behind, fast-forward it first. Branching off a stale integration branch silently builds against outdated code. You drive git, not the product person. **Bootstrap story (net-new repo):** there is no `origin` to fetch — `git init`, commit the scaffold, and branch off the local integration branch; push when a remote exists. This no-origin path fires *only* when there is genuinely no remote, never when a fetch merely failed (build-checklist.md).
+   *Done when:* the branch exists off the **freshly-fetched** integration tip (or, for a bootstrap story, the freshly-initialized repo), you are on it, and `main` is untouched.
 
-2. **Red.** Write the acceptance test from the PRD's acceptance criteria. If the module has no test setup, scaffold the test file and its local wiring — an untested module is not a missing runner (see build-checklist.md); the runner itself is assumed present.
+2. **Red.** Write the acceptance test from the PRD's acceptance criteria. If the module has no test setup, scaffold the test file and its local wiring — an untested module is not a missing runner (see build-checklist.md); the runner is assumed present **except on the bootstrap story, where standing it up per the founding ADRs is part of this story's green step**.
    *Done when:* the test exists and **runs red for the right reason** — it fails because the behavior is absent, not because the harness is broken.
 
 3. **Green.** Write the minimal code to pass — **build against the shaped seam** (its signatures, or a contract/mock for cross-repo work), at the seams the story names. Run typecheck and the test command after each meaningful change.

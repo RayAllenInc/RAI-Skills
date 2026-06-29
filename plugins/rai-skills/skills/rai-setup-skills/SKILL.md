@@ -62,4 +62,4 @@ Print a short ✅ / ❌ summary, for example:
 - Critical skills: ✅ 6/6 roster commands succeeded (or ❌ name the ones that failed)
 - Stale skills pruned: ✅ removed N deleted-upstream skills (or "none to prune")
 
-If everything is ✅, tell them they're set up. Point to the per-project next step: run `setup-matt-pocock-skills` once inside a repo so the engineering skills (`to-prd`, `triage`, …) learn where that repo tracks issues and which triage labels to use. If anything is ❌, say exactly what's left to do.
+If everything is ✅, tell them they're set up. Point to the per-project next step: run `setup-matt-pocock-skills` once inside a repo so the engineering skills (`to-prd`, `triage`, …) learn where that repo tracks issues and which triage labels to use. (For a **net-new product** with no repo yet, that per-repo config is established later by the **bootstrap story** — the first build story — not here.) If anything is ❌, say exactly what's left to do.

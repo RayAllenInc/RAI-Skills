@@ -12,7 +12,7 @@ Skills follow the open [Agent Skills standard](https://agentskills.io) (`SKILL.m
 | `rai-grill-architect` | The stage-2 inverse: grills an architect on *how* to build the feature with the codebase fully on the table, turning a PRD and the parked build questions into ADRs, **shaped seams** (internal interfaces, plus a tiered cross-repo contract when two sides merge separately), and repo-pure story slices, then hands off to `to-issues`. Also builds on `grilling` + `domain-modeling`. |
 | `rai-ready-to-code` | The **ReadyToCode gate** (Phase 3): a mandatory, independent, adversarial "no loose ends" review that gates a designed story to `ready-for-agent` before any build — review lenses + a red-team refute against a checklist (incl. "seams shaped, not just named"), recording the review and the architect's approval. |
 | `rai-implement-story` | Implements one `ready-for-agent` story (single-repo tool *or* cross-repo product) into a reviewed, test-backed pull request — test-first (`red → green`), built against the shaped seam, branch-write/prod-blind, stopping at PR. Phase 4; restates its loop inline and leans on community `tdd`/`review` when present. |
-| `rai-setup-skills` | Onboarding check for a new teammate (today: GitHub CLI installed + authenticated). |
+| `rai-setup-skills` | Onboards or refreshes a machine for the toolkit — verifies prerequisites (git, GitHub CLI, Node), installs/updates the rai plugin, and provisions the critical RAI + community skill roster. |
 
 The canonical skill folders live under **`plugins/rai-skills/skills/`**.
 

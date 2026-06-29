@@ -23,9 +23,9 @@ Interview me relentlessly about *how* to build this feature — using the grilli
 
 Read these first, before asking anything:
 
-- the **PRD** for this feature (the requirement grill's output, synthesized by `to-prd`) — note especially any **brownfield "reuse, don't rebuild" constraint** it records: honor it, and confirm the named reusable units in the code (rule 1 / coverage area 7) rather than re-deriving the existing system from scratch;
+- the **PRD** for this feature (the requirement grill's output, synthesized by `to-prd`) — note especially the **greenfield/brownfield constraint** it records: on **brownfield**, honor any "reuse, don't rebuild" line and confirm the named reusable units in the code (rule 1 / coverage area 7) rather than re-deriving the existing system; on **greenfield**, there is nothing to reuse — design net-new (rule 1's to-be posture, coverage area 11);
 - **the parked questions** — `architect-questions.md` in this feature's folder (the questions the requirement grill parked for you). **Find that folder from the repo — don't assume it:** if `docs/agents/issue-tracker.md` exists, use the layout it specifies (e.g. NexaContext uses `features/<slug>/`); otherwise fall back to `.scratch/<feature>/`. The answers it recorded are now your **constraints** ("fresh within the hour → you choose how"). Read it directly; it does not travel inside the PRD. If it's absent — no prior requirement grill, or a fresh session — work from the PRD and code alone, and note the missing parked constraints rather than blocking;
-- the **glossary** (`CONTEXT.md`), existing **ADRs**, and the **code**.
+- the **glossary** (`CONTEXT.md`), existing **ADRs**, and the **code** (all may be empty on a net-new product — work from the PRD and the idea, and note the gaps rather than blocking).
 
 I am the architect. I think in mechanics, interfaces, data, failure modes, and non-functionals. Engage the code with me directly.
 
@@ -35,7 +35,7 @@ I am the architect. I think in mechanics, interfaces, data, failure modes, and n
 
 These separate this from the requirement grill — never break them.
 
-**1. The codebase is on the table.** Read the code and use it out loud — cite current behavior, name the modules and seams a change touches, and surface contradictions between what I claim and what the code does ("the read path already caches that for ten minutes — can 'fresh within the hour' lean on it, or not?"). Meet me as an engineer at a whiteboard, not a strategist. (This restores domain-modeling's "cross-reference with code" / "surface the contradiction" step that rai-grill-requirement turned off.)
+**1. The codebase is on the table.** Read the code and use it out loud — cite current behavior, name the modules and seams a change touches, and surface contradictions between what I claim and what the code does ("the read path already caches that for ten minutes — can 'fresh within the hour' lean on it, or not?"). Meet me as an engineer at a whiteboard, not a strategist. (This restores domain-modeling's "cross-reference with code" / "surface the contradiction" step that rai-grill-requirement turned off.) **On a net-new product** (the requirement grill recorded a greenfield constraint) there is no current behavior to cite — flip the posture to *designing the to-be*: name the modules and seams you will **create**, and surface contradictions between competing design options rather than between claim and code. Brownfield (the default) keeps the rule exactly as written above.
 
 **2. Ask the mechanism, not the shadow.** The requirement grill translated every build question into its user-facing outcome and parked the mechanism for you. Pick those up and ask them *directly*, in build terms:
 
@@ -58,10 +58,11 @@ Cover at least these — a floor, not a ceiling:
 4. **Failure & recovery** — what happens when each dependency fails; retries, fallbacks
 5. **Non-functionals** — latency, throughput, and scale budgets, named with numbers
 6. **Security & access** — authorization, tenancy, what data is exposed and to whom
-7. **Dependencies & blast radius** — external systems touched; what a change can break; and when a story leans on "existing" behavior to reuse, open the code and confirm it is an actual reusable unit — not just a similar-looking thing you'd have to build or refactor first
+7. **Dependencies & blast radius** — external systems touched; what a change can break; and when a story leans on "existing" behavior to reuse, open the code and confirm it is an actual reusable unit — not just a similar-looking thing you'd have to build or refactor first (reuse-confirmation is brownfield-only — on a net-new product there is nothing yet to reuse)
 8. **Build sequencing** — what slices cleanly per side, what's coupled, the merge order
 9. **Testing seams** — where and how the feature is proven; the boundaries that let it be tested in isolation
 10. **Operability** — observability, rollout and flagging, and how to reverse it
+11. **Foundational architecture** *(a net-new product's first feature only — brownfield skips this)* — language/runtime, framework, persistence, repo layout, test strategy, the test runner, and CI, captured as the **founding ADRs** the bootstrap story executes against. See [foundational-architecture.md](./foundational-architecture.md)
 
 Before finishing, run a completeness sweep: what's unique about *this* build that none of the standard areas caught? Chase it.
 
@@ -96,6 +97,8 @@ Create or extend `CONTEXT.md` and `docs/adr/` lazily — only once a decision is
 <when-done>
 
 When every coverage area is answered or parked and the completeness sweep turns up nothing new, summarize the decisions, then hand off: the story slices feed **`to-issues`**, which files each as an issue in its own repo. For a cross-repo feature, carry the per-repo routing yourself (see [seams-and-contracts.md](./seams-and-contracts.md)). Don't write the issues here — that's `to-issues`' job.
+
+**Net-new product (no repo yet)?** Mark the first story `Bootstrap: yes` (linking the founding ADRs) and write it to `.scratch/<feature>/` rather than routing it through `to-issues` — there is no repo or tracker yet. It is gated and built from there, creating the repo, runner, and tracker; **only then** does `to-issues` file the remaining stories against the now-real tracker. Brownfield and existing repos skip this. See [foundational-architecture.md](./foundational-architecture.md).
 
 **Stop at the story slices — do not jump to a build.** Your output is designed stories, not running code. Each story then faces the **ReadyToCode gate** before any build — the **`rai-ready-to-code`** skill: it earns the `ready-for-agent` label only after that mandatory independent, adversarial review finds no surviving loose end and the architect approves. **Present that gate as the next step**, not a build.
 
