@@ -52,7 +52,7 @@ Make the first session the best, most complete one: exhaustive in what you cover
 
 Cover at least these — a floor, not a ceiling:
 
-1. **The seams** — the interfaces this story builds against: internal module seams (a Core↔adapter boundary) *and* any cross-side data shape. Name them, then **shape** them — signatures, the data shape, the error cases — so the build isn't left to invent them
+1. **The seams** — the interfaces this story builds against: internal module seams (a Core↔adapter boundary — the common case for single-repo tooling) *and* any cross-side data shape. Name them, then **shape** them — signatures, the data shape, the error cases, **and which side is pure vs. which does the I/O** — so the build isn't left to invent them. Internal seams are the ones most often left *named but not shaped* — give them the same rigor as a cross-repo contract ([seams-and-contracts.md](./seams-and-contracts.md))
 2. **Data & state** — the model, who owns what, migrations and backfills
 3. **Consistency & timing** — sync vs async, freshness, ordering, idempotency
 4. **Failure & recovery** — what happens when each dependency fails; retries, fallbacks

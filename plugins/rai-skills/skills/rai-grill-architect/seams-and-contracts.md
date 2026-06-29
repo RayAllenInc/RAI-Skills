@@ -6,7 +6,20 @@ How the architect grill turns build decisions into stories a builder can impleme
 
 A **seam** is any boundary a story builds against — an internal module interface (an `ISourceGateway` between a Core and its adapters), or the data shape two sides exchange. Naming the seam ("it talks to an `ISourceGateway`") is a decision *deferred to the builder*; **shaping** it — the method signatures, the data shape, the error/edge cases — is the decision *made*. Two builders handed a named-but-unshaped seam invent two incompatible versions, and the mismatch only surfaces later.
 
-So for every story, write its seams down concretely. This is what the ReadyToCode gate's "seams shaped, not just named" line checks. Most seams are internal and live in the story (or in an ADR when there's a real choice to justify). One kind of seam needs more care: the cross-repo one.
+So for every story, write its seams down concretely. This is what the ReadyToCode gate's "seams shaped, not just named" line checks. Most seams are internal and live in the story (or in an ADR when there's a real choice to justify). Two kinds need more than a one-liner: the **internal** seam — the common case, and the one most often left named-but-unshaped — and the **cross-repo** one.
+
+## Shaping an internal seam (the common case)
+
+For an internal interface, *shaped* means a builder could implement it with nothing left to decide:
+
+- **the operations** — each one's name, inputs, and outputs (not "it talks to a board gateway" but the exact methods and their types);
+- **the data shape** each returns, and the **error/edge cases** — empty, absent, malformed, timed-out;
+- **which side is pure vs. which does the I/O** — the decision stories drop most often. If one side is declared **pure / I/O-free** (typically the Core), no operation on it may read or write a file, hit the network, spawn a process, or mutate external state — that work lives in an **adapter** on the other side, injected so the pure side is tested through a fake. An acceptance criterion that asks the pure side to *do* I/O (a `reads` / `removes` / `fetches` verb on a pure method) is the seam shaped wrong — catch it here, not at the gate.
+
+**Worked example — a launcher's board read.** *"Show each repo's branch rows on the status board."*
+
+- **Named (not enough):** "the Core reads branch rows via a source gateway."
+- **Shaped:** `GetBranchRows(repo)` returns `BranchRow { name, ahead, behind, lastCommit }`; a missing repo yields an empty list, an unreachable one surfaces a `ReadFailed` the caller renders — not an exception that hangs the board. The Core composes the rows **purely**; the git/process reads live in an adapter behind the gateway, injected as a fake in tests, with the never-hang watchdog a parameter of the seam rather than buried in the I/O.
 
 ## The cross-repo contract — a tiered decision
 
