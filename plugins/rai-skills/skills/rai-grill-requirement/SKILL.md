@@ -105,4 +105,6 @@ When coverage is solid and the sweep is clean, summarize the decisions in the co
 
 **Then commit the PRD on the feature branch** where `docs/agents/issue-tracker.md` specifies (e.g. `features/<slug>/PRD.md`; `.scratch/<feature>/PRD.md` when none is configured), not only as a tracker issue. The branch is the source of truth: a committed `PRD.md` is what lights up the *Requirements* stage for status tooling and what `rai-implement-story` reads as its definition of done. (`to-prd` is a community skill, so this on-branch commit is the rai convention layered on top of it — do it after `to-prd` runs.) For a **net-new product with no repo yet**, the PRD and ADRs live in `.scratch/<feature>/` and this on-branch commit is **deferred to the bootstrap story** — the first build story, which creates the repo — restoring the chain once the repo exists.
 
+**What "a complete PRD" means is not described here — it lives once in the central rulebook** (the versioned, per-artifact definition of "done", so the bar can't drift across skills). Preview the PRD against it with `rai-adlc check <feature>`: it reports **done / incomplete / absent** and names the required sections still missing, so the PRD is finished before handoff instead of a human catching the gap stages later. Cite the rulebook and run the check — don't restate the required-section list here.
+
 </when-done>

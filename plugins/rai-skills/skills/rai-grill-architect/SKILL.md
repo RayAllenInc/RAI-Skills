@@ -102,4 +102,6 @@ When every coverage area is answered or parked and the completeness sweep turns 
 
 **Stop at the story slices — do not jump to a build.** Your output is designed stories, not running code. Each story then faces the **ReadyToCode gate** before any build — the **`rai-ready-to-code`** skill: it earns the `ready-for-agent` label only after that mandatory independent, adversarial review finds no surviving loose end and the architect approves. **Present that gate as the next step**, not a build.
 
+**The bar for the design artifacts lives in the central rulebook, not in prose here.** "What a complete shaped seam / `architect-questions.md` looks like" is defined once, per artifact, in the versioned rulebook — so it can't drift between this skill and the gate. Preview a feature's design artifacts against it with `rai-adlc check <feature>` (it reports each rung **done / incomplete / absent** and names what's missing). Cite the rulebook and run the check rather than re-describing "done."
+
 </when-done>
