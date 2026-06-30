@@ -33,6 +33,8 @@ Because the review — not the reviewer's identity — is what stays independent
 
 <the-checklist>
 
+This checklist **is the story schema** — the single, versioned definition of "a buildable story," headed into the central **rulebook** so the bar lives in one place and can't drift between this gate, the skills, and the CI check. The artifact rungs a feature passes on the way here (PRD, shaped seams, `architect-questions.md`, the `contract/`) are themselves rulebook-defined and previewable with `rai-adlc check <feature>` (**done / incomplete / absent** + what's missing) — run it so the deterministic gaps are closed before this review, leaving the gate to spend its judgment on the rest. The deterministic lines below are what a machine gate runs; the adversarial red-team is the human/agent judgment a checker can't replace.
+
 Every line must be **yes**:
 
 - [ ] **Dependencies satisfied** — everything the story needs already exists or is a named earlier story; nothing it claims to "reuse" is actually unbuilt (open the code and check). *(Greenfield: nothing to open yet — check against the founding ADRs instead.)*

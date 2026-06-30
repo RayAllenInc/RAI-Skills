@@ -33,6 +33,8 @@ Before writing anything, read:
 - the **ADRs** touching this area — honor them; if your build would contradict one, **surface it**, never silently override;
 - the **code in place** at the seams the story names.
 
+**The PRD's "done" is rulebook-defined — verify it, don't assume it.** Preview the PRD (and any artifact this story produces, e.g. a `contract/`) with `rai-adlc check <feature>`: a `done` means the bar the rulebook sets is met; an `incomplete` with named missing pieces is a loose end the ReadyToCode gate should have caught — surface it rather than building on a half-spec. The agent self-checks here so a human never has to type "validate".
+
 </read-first>
 
 <the-build-loop>
